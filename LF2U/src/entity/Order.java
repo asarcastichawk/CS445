@@ -61,4 +61,10 @@ public class Order {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public String getActualDate() {
+		return actual_delivery_date;
+	}
+	public void setActualDate(String actual_delivery_date) {
+		this.actual_delivery_date = actual_delivery_date;
+	}
 }

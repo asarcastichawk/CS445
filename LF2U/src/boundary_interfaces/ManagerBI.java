@@ -7,8 +7,9 @@ import entity.ProductCatalog;
 
 public interface ManagerBI {
 	ArrayList<ProductCatalog> viewCatalog();
-	String AddProduct (ProductCatalog p);
+	String addProduct (ProductCatalog p);
 	void updateProduct (int gcpid, ProductCatalog p);
-	Manager viewAllManagers();
+	ArrayList<Manager> viewAllManagers();
 	Manager viewManagerById(int mid);
+	String createManager(Manager m);
 }

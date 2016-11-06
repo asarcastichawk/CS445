@@ -23,4 +23,12 @@ public class Manager {
 		public int getMid() {
 		    return this.mid;
 		}
+		public void setMid(int mid){
+			this.mid = mid;
+		}
+		
+		public boolean matchesId(int mid) {
+		    return(mid == this.mid);
+		}
+		
 }

@@ -64,8 +64,8 @@ public class FarmersTest {
 	@Test
 	public void testUpdateAccountAndVerify() {
 		zip_set2.add("60504");
-		f2 = new Farmer(p_info,f_info,zip_set2);
-		bi.updateAccount(2,f2);
+		Farmer f2new = new Farmer(p_info,f_info,zip_set2);
+		bi.updateAccount(2,f2new);
 		ArrayList<Farmer> farmers = bi.viewFarmers("60504");
 		int no_farmers = farmers.size();
 		assertEquals(no_farmers,2);

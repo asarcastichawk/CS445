@@ -14,6 +14,7 @@ public class Order {
 
 	private int oid;
 	private int fid;
+	private int cid;
 	private ArrayList<OrderDetail> detail = new ArrayList<OrderDetail>();
 	private String delivery_note;
 	private String status;
@@ -28,7 +29,7 @@ public class Order {
 		this.fid = fid;
 		this.detail = detail;
 		this.delivery_note = delivery_note;
-		this.status = "open";
+		this.setStatus("open");
 		
 		Date today = Calendar.getInstance().getTime();
 		this.order_date = dateFormat.format(today);
@@ -40,5 +41,24 @@ public class Order {
 	public ArrayList<OrderDetail> getAllDetails()
 	{
 		return detail;
+	}
+	public int getCid() {
+		return cid;
+	}
+	public void setCid(int cid) {
+		this.cid = cid;
+	}
+	public int getOid() {
+		return oid;
+	}
+	
+	public boolean matchesId(int oid) {
+	    return(oid == this.oid);
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

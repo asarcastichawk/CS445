@@ -2,6 +2,8 @@ package rest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 import use_cases.FarmerManager;
 import boundary_interfaces.FarmerBI;

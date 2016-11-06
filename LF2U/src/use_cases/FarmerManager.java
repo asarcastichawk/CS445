@@ -1,11 +1,9 @@
 package use_cases;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import boundary_interfaces.FarmerBI;
 import entity.Farmer;
-import entity.PersonalInfo;
-import entity.FarmInfo;
 import entity.Store;
 import entity.StoreProduct;
 
@@ -15,11 +13,10 @@ public class FarmerManager implements FarmerBI {
 
 	@Override
 	public String createAccount(Farmer f) {
-			Farmer farm = f;
-			farmers.add(farm);
-			int fid_as_int = farm.getFid();
-			String fid_as_str = Integer.toString(fid_as_int);
-			
+		Farmer farm = f;
+		farmers.add(farm);
+		int fid_as_int = farm.getFid();
+		String fid_as_str = Integer.toString(fid_as_int);
 		return fid_as_str;
 	}
 
@@ -28,7 +25,6 @@ public class FarmerManager implements FarmerBI {
 		Farmer farm = getFarmerById(fid);
 		if(farm!=null){
 		farm.setFarm(f);
-		
 		}
 	}
 
@@ -53,7 +49,7 @@ public class FarmerManager implements FarmerBI {
 	@Override
 	public Farmer viewAccount(int fid) {
 		Farmer farm = getFarmerById(fid);
-		return farm;
+		return ((farm != null) ? null : farm);
 	}
 
 	@Override
@@ -65,7 +61,6 @@ public class FarmerManager implements FarmerBI {
             if(getFarmerZip(farm, zip)!=null)
             	matchzip.add(farm);
         }
-        
         return matchzip;
 	}
 
@@ -76,8 +71,6 @@ public class FarmerManager implements FarmerBI {
 		Store store = farm.getStore();
 		allproducts = store.getAllStoreProducts();
         return allproducts;
-	
-		
 	}
 
 	@Override
@@ -106,8 +99,4 @@ public class FarmerManager implements FarmerBI {
 		Farmer farm = getFarmerById(fid);
 		farm.setDeliveryCharge(dc);
 	}
-
-	
-	
-	
 }

@@ -1,9 +1,6 @@
 package boundary_interfaces;
 
-
-
 import java.util.ArrayList;
-
 import entity.Customer;
 import entity.Order;
 

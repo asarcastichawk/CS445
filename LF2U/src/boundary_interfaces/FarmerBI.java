@@ -1,7 +1,6 @@
 package boundary_interfaces;
 
 import java.util.ArrayList;
-
 import entity.Farmer;
 import entity.StoreProduct;
 

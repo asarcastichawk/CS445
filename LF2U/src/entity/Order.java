@@ -26,16 +26,16 @@ public class Order {
 	public Order(int fid, ArrayList<OrderDetail> detail, String delivery_note)
 	{
 		this.oid = atomicInteger.incrementAndGet();
-		this.fid = fid;
+		this.setFid(fid);
 		this.detail = detail;
-		this.delivery_note = delivery_note;
+		this.setDelivery_note(delivery_note);
 		this.setStatus("open");
 		
 		Date today = Calendar.getInstance().getTime();
-		this.order_date = dateFormat.format(today);
+		this.setOrder_date(dateFormat.format(today));
 		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 1);
 		Date tom = Calendar.getInstance().getTime();
-		this.planned_delivery_date = dateFormat.format(tom);
+		this.setPlanned_delivery_date(dateFormat.format(tom));
 		
 	}
 	public ArrayList<OrderDetail> getAllDetails()
@@ -66,5 +66,29 @@ public class Order {
 	}
 	public void setActualDate(String actual_delivery_date) {
 		this.actual_delivery_date = actual_delivery_date;
+	}
+	public String getDelivery_note() {
+		return delivery_note;
+	}
+	public void setDelivery_note(String delivery_note) {
+		this.delivery_note = delivery_note;
+	}
+	public String getOrder_date() {
+		return order_date;
+	}
+	public void setOrder_date(String order_date) {
+		this.order_date = order_date;
+	}
+	public String getPlanned_delivery_date() {
+		return planned_delivery_date;
+	}
+	public void setPlanned_delivery_date(String planned_delivery_date) {
+		this.planned_delivery_date = planned_delivery_date;
+	}
+	public int getFid() {
+		return fid;
+	}
+	public void setFid(int fid) {
+		this.fid = fid;
 	}
 }

@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 import entity.Order;
 import boundary_interfaces.DeliveryBI;
 
@@ -19,7 +18,6 @@ public class DeliveryManager implements DeliveryBI {
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		Date today = Calendar.getInstance().getTime();
 		o.setActualDate(dateFormat.format(today));
-		
 	}
 
 }

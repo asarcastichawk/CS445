@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
-
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
 import use_cases.FarmerManager;
 import boundary_interfaces.FarmerBI;
 import entity.Customer;
@@ -46,6 +47,8 @@ public class TestForNow {
 		bi.createAccount("John", "1350", "708", "i@f.com", "Huzair", "huzair@huzair.com", "369",zip2 );
 		ArrayList<Farmer> farmers = new ArrayList<Farmer>();
 		farmers = bi.viewFarmers("60504");*/
+		
+		
 		
 	}
 

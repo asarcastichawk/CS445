@@ -1,5 +1,5 @@
 package entity;
 
-public class Report {
+public interface Report {
 
 }

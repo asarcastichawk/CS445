@@ -3,7 +3,6 @@ package use_cases;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import entity.Customer;
 import entity.Order;
 import boundary_interfaces.CustomerBI;

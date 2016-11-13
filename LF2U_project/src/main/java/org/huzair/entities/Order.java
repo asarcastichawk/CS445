@@ -1,47 +1,46 @@
 package org.huzair.entities;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class Order {
-	static AtomicInteger atomicInteger = new AtomicInteger();
-	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 	
-
+	
+	
 	private int oid;
 	private int fid;
 	private int cid;
-	private ArrayList<OrderDetail> detail = new ArrayList<OrderDetail>();
+	private ArrayList<OrderDetail> order_detail = new ArrayList<OrderDetail>();
 	private String delivery_note;
 	private String status;
 	private String order_date;
 	private String planned_delivery_date;
 	private String actual_delivery_date;
-	double products_total;
-	double order_total;
-	public Order(int fid, ArrayList<OrderDetail> detail, String delivery_note)
+	private double products_total;
+	//private double order_total;
+	public Order(int fid, ArrayList<OrderDetail> order_detail, String delivery_note)
 	{
-		this.oid = atomicInteger.incrementAndGet();
-		this.setFid(fid);
-		this.detail = detail;
-		this.setDelivery_note(delivery_note);
-		this.setStatus("open");
+		this.fid = fid;
+		this.order_detail = new ArrayList<OrderDetail>(order_detail);
+		this.delivery_note = delivery_note;	
 		
-		Date today = Calendar.getInstance().getTime();
-		this.setOrder_date(dateFormat.format(today));
-		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 1);
-		Date tom = Calendar.getInstance().getTime();
-		this.setPlanned_delivery_date(dateFormat.format(tom));
-		
+	}
+	
+	public Order(Order another) {
+	    this.fid = another.getFid();
+	    this.order_detail = new ArrayList<OrderDetail>(another.getAllDetails());
+	    this.delivery_note = another.getDelivery_note();
+	    this.status = another.getStatus();
+	    this.order_date = another.getOrder_date();
+	    this.planned_delivery_date = another.getPlanned_delivery_date();
+	  }
+	public void setOid(int oid){
+		this.oid = oid;
 	}
 	public ArrayList<OrderDetail> getAllDetails()
 	{
-		return detail;
+		return order_detail;
 	}
 	public int getCid() {
 		return cid;
@@ -92,17 +91,35 @@ public class Order {
 	public void setFid(int fid) {
 		this.fid = fid;
 	}
+	public double getProductsTotal(){
+		if(this.order_detail!=null){	
+			Iterator<OrderDetail> o = order_detail.listIterator();
+			while(o.hasNext()) {
+				OrderDetail odetail = o.next();
+				products_total += odetail.getLineItemTotal();	
+			}
+		}
+		return products_total;
+}
 	public boolean validate() {
 		boolean isValid = false;
-		if(detail!=null && fid > 0);
+		if(this.fid > 0)
 			isValid = true;
-		Iterator<OrderDetail> o = detail.listIterator();
-        while(o.hasNext()) {
-            OrderDetail odetail = o.next();
-            if(!odetail.validate()){
-            	return false;
-            }	
+		if(this.order_detail!=null){	
+			Iterator<OrderDetail> o = order_detail.listIterator();
+			while(o.hasNext()) {
+				OrderDetail odetail = o.next();
+				if(!odetail.validate())
+					return false;
+			}
+        }
+		return isValid;
 	}
-        return isValid;
-}
+
+	public boolean statusValidate() {
+		String status = this.status;
+		if(status.equalsIgnoreCase("Cancelled"))
+			return true;
+		return false;
+	}
 }

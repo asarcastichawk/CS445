@@ -1,6 +1,7 @@
 package org.huzair.boundary_interfaces;
 import org.huzair.entities.Customer;
 import org.huzair.entities.Order;
+import org.huzair.report.OrderReport;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public interface CustomerBI {
 	int createOrder(int cid, Order o);
 	ArrayList<Order> viewAllOrders(int cid);
 	Order viewById(int oid);
+	OrderReport viewOrderReport(int oid);
 	void cancelOrder(int cid, int oid, String status);
 	
 }

@@ -13,11 +13,20 @@ private String phone;
 private String email;
 
 public Customer(String name, String street, String zip, String phone, String email){
-	this.setName(name);
-	this.setStreet(street);
-	this.setZip(zip);
-	this.setPhone(phone);
-	this.setEmail(email);
+	this.name = name;
+	this.street = street;
+	this.zip = zip;
+	this.street = street;
+	this.phone = phone;
+	this.email = email;
+}
+public Customer(Customer another){
+	this.name = another.name;
+	this.street = another.street;
+	this.zip = another.zip;
+	this.street = another.street;
+	this.phone = another.phone;
+	this.email = another.email;
 }
 
 public int getCid() {

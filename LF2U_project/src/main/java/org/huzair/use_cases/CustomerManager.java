@@ -1,18 +1,28 @@
 package org.huzair.use_cases;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.huzair.boundary_interfaces.CustomerBI;
 import org.huzair.entities.Customer;
+import org.huzair.entities.Farmer;
 import org.huzair.entities.Order;
+import org.huzair.entities.Store;
+import org.huzair.entities.StoreProduct;
+import org.huzair.report.OrderReport;
 
 
 public class CustomerManager implements CustomerBI{
 
 	private static AtomicInteger atomicInteger = new AtomicInteger();
+	private static AtomicInteger orderAtomicInteger = new AtomicInteger();
 	private static ArrayList<Customer> customers = new ArrayList<Customer>();
 	private static ArrayList<Order> orders = new ArrayList<Order>();
+	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 	private String cancel = "cancelled";
 	
 	//Creates an account for the customer and returns the customer id
@@ -58,29 +68,38 @@ public class CustomerManager implements CustomerBI{
 	//Creates an order if the customer id is found and returns the order id
 	@Override
 	public int createOrder(int cid, Order o) {
-		Customer customer = getCustomerById(cid);
-		if(customer!=null){
-			Order order = o;
-			order.setCid(cid);
-			orders.add(order);
-			int oid_as_int = order.getOid();
-			return oid_as_int;
-		}
-		return 0;
+		if(getCustomerById(cid)==null)
+			return 0;
+		Order order = new Order(o);
+		order.setCid(cid);
+		order.setOid(orderAtomicInteger.incrementAndGet());
+		order.setStatus("open");
+		Date today = Calendar.getInstance().getTime();
+		order.setOrder_date(dateFormat.format(today));
+		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 1);
+		Date tom = Calendar.getInstance().getTime();
+		order.setPlanned_delivery_date(dateFormat.format(tom));
+		orders.add(order);
+		int oid_as_int = order.getOid();
+		return oid_as_int;
+		
 	}
 	
 	//Returns all orders by customer id
 	@Override
 	public ArrayList<Order> viewAllOrders(int cid) {
-		ArrayList<Order> order_by_cid = new ArrayList<Order>();
+		ArrayList<Order> allorders = new ArrayList<Order>();
+		Customer cust = getCustomerById(cid);
+		if(cust==null)
+			return null;
 		Iterator<Order> o = orders.listIterator();
         while(o.hasNext()) {
             Order order = o.next();
             int order_cid = order.getCid();
             if(order_cid == cid)
-            	order_by_cid.add(order);
+            	allorders.add(order);
         }
-		return order_by_cid;
+		return allorders;
 	}
 	//Searches order by order id
 	@Override
@@ -103,6 +122,13 @@ public class CustomerManager implements CustomerBI{
 				order.setStatus(cancel);
 	        }
 		}
+
+	@Override
+	public OrderReport viewOrderReport(int oid) {
+		Order o = viewById(oid);
+		OrderReport oreport = new OrderReport(o);
+		return oreport;
+	}
 }
 
 

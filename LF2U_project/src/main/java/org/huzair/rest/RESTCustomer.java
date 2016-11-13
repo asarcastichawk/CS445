@@ -91,9 +91,10 @@ public class RESTCustomer {
 	}
 	@Path("{id}/orders")
 	@POST
-	public Response addOrder(@Context UriInfo uriInfo, @PathParam("id") int cid, String json_in) {
+	public Response createOrder(@Context UriInfo uriInfo, @PathParam("id") int cid, String json_in) {
 			
 			Customer cust;
+			int id;
 			cust = bi.viewAccount(cid);
 			if(cust==null)
 				return Response.status(Response.Status.NOT_FOUND).build();
@@ -108,8 +109,8 @@ public class RESTCustomer {
 			if(!order.validate())
 				return Response.status(Response.Status.BAD_REQUEST).build();
 			
-			int id = bi.createOrder(cid, order);
-			json.addProperty("fspid", id );
+			id = bi.createOrder(cid, order);
+			json.addProperty("oid", id );
 			
 			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
 	        builder.path(Integer.toString(id));
@@ -117,5 +118,54 @@ public class RESTCustomer {
 	        return Response.created(builder.build()).entity(json.toString()).build(); 
 		}
 	
+	@Path("{id}/orders")
+	@GET
+    public Response viewOrders(@PathParam("id") int cid) {
+		Customer cust;
+		cust = bi.viewAccount(cid);
+		if(cust==null)
+			return Response.status(Response.Status.NOT_FOUND).build();
+		String sjson = gson.toJson(bi.viewAllOrders(cid));
+		return Response.ok(sjson).build();
+			
+	}
 	
-}
+	@Path("{cid}/orders/{oid}")
+	@GET
+    public Response viewOrderReport(@PathParam("cid") int cid,@PathParam("oid") int oid) {
+		Customer cust;
+		cust = bi.viewAccount(cid);
+		if(cust==null)
+			return Response.status(Response.Status.NOT_FOUND).build();
+		String sjson = gson.toJson(bi.viewOrderReport(oid));
+		return Response.ok(sjson).build();
+			
+	}
+	@Path("{cid}/orders/{oid}")
+	@POST
+    public Response cancelOrder(@Context UriInfo uriInfo, @PathParam("cid") int cid,@PathParam("oid") int oid, String json_in) {
+		Customer cust;
+		int id;
+		cust = bi.viewAccount(cid);
+		if(cust==null)
+			return Response.status(Response.Status.NOT_FOUND).build();
+		Order order;
+		try{
+			order = gson.fromJson(json_in, Order.class);
+		}
+		catch(Exception e){	
+			return Response.status(400).entity(gson.toJson(e)).build();
+		}
+		if(!order.statusValidate())
+			return Response.status(Response.Status.BAD_REQUEST).build();
+			
+		bi.cancelOrder(cid, oid, order.getStatus());
+
+		UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(Integer.toString(oid));
+        
+        return Response.ok(builder.build()).build();
+	}
+	}
+	
+

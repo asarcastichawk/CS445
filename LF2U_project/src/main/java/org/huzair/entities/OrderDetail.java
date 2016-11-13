@@ -12,11 +12,11 @@ public class OrderDetail {
 	private double line_item_total;
 	StoreProduct sp;
 	ProductCatalog product;
-	public OrderDetail(int fspid,double amount, StoreProduct sp)
+	public OrderDetail(int fspid,double amount)
 	{
 		this.fspid = fspid;
 		this.amount = amount;
-		this.sp = sp;
+		//this.sp = sp;
 		this.price = sp.getPrice();
 	}
 	

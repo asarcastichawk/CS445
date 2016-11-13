@@ -16,6 +16,7 @@ public class FarmerManager implements FarmerBI {
 	static AtomicInteger atomicInteger_products = new AtomicInteger();
 	private static ArrayList<Farmer> farmers = new ArrayList<Farmer>();
 
+	//Create farmer account;
 	@Override
 	public int createAccount(Farmer f) {
 		Farmer farm = f;
@@ -23,10 +24,10 @@ public class FarmerManager implements FarmerBI {
 		farmers.add(farm);
 		int fid_as_int = farm.getFid();
 		farm.setStore();
-		//String fid_as_str = Integer.toString(fid_as_int);
 		return fid_as_int;
 	}
 	
+	//Update farmer account
 	@Override
 	public void updateAccount(int fid, Farmer f) {
 		Farmer farm = getFarmerById(fid);
@@ -34,7 +35,8 @@ public class FarmerManager implements FarmerBI {
 		farm.setFarm(f);
 		}
 	}
-
+	
+	//Get farmer account by fid
 	public Farmer getFarmerById(int fid){
 		Iterator<Farmer> f = farmers.listIterator();
         while(f.hasNext()) {
@@ -45,17 +47,15 @@ public class FarmerManager implements FarmerBI {
 		return null;
 	}
 	
-	
-	
-	
+	//Get farmer by zipcode
 	public Farmer getFarmerZip(Farmer farm, String zip){
 		ArrayList<String> farmer_zip = farm.getDeliversTo();
 		if(farmer_zip.contains(zip))
-		return farm;
-		
+			return farm;
 		return null;
 	}
 	
+	//View account by fid
 	@Override
 	public Farmer viewAccount(int fid) {
 		Farmer farm = getFarmerById(fid);
@@ -64,6 +64,7 @@ public class FarmerManager implements FarmerBI {
 		return null;
 	}
 
+	//View all farmers in the zip
 	@Override
 	public ArrayList<Farmer> viewFarmers(String zip) {
 		ArrayList<Farmer> matchzip = new ArrayList<Farmer>();
@@ -76,6 +77,7 @@ public class FarmerManager implements FarmerBI {
         return matchzip;
 	}
 
+	//View store for farmer by fid
 	@Override
 	public ArrayList<StoreProduct> viewStore(int fid) {
 		ArrayList<StoreProduct> allproducts = new ArrayList<StoreProduct>();
@@ -87,6 +89,7 @@ public class FarmerManager implements FarmerBI {
         return allproducts;
 	}
 
+	//Add product to store
 	@Override
 	public int addProduct(int fid, StoreProduct sproducts) {
 		Farmer farm = getFarmerById(fid);
@@ -97,6 +100,7 @@ public class FarmerManager implements FarmerBI {
 		return s.getFspid();
 	}
 
+	//Modify store product
 	@Override
 	public void modifyProduct(int fid, int fspid, StoreProduct s) {
 		StoreProduct sproduct = viewProduct(fid,fspid);
@@ -104,12 +108,14 @@ public class FarmerManager implements FarmerBI {
 			sproduct.setProduct(s);
 	}
 
+	//View delivery charge
 	@Override
 	public double ViewDelivery(int fid) {
 		Farmer farm = getFarmerById(fid);
 		return farm.getDeliveryCharge();
 	}
 
+	//Update delivery charge
 	@Override
 	public void UpdateDelivery(int fid,double dc) {
 		Farmer farm = getFarmerById(fid);

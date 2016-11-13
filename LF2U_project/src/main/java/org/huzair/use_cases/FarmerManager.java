@@ -8,6 +8,7 @@ import org.huzair.boundary_interfaces.FarmerBI;
 import org.huzair.entities.Farmer;
 import org.huzair.entities.Store;
 import org.huzair.entities.StoreProduct;
+import org.huzair.report.FarmerReportType;
 
 public class FarmerManager implements FarmerBI {
 	
@@ -126,4 +127,17 @@ public class FarmerManager implements FarmerBI {
         }
 		return null;
 	}
+
+	@Override
+	public ArrayList<FarmerReportType> allReportTypes() {
+		FarmerReportType reports = new FarmerReportType();
+		ArrayList<FarmerReportType> allReportTypes = reports.getAllTypes();
+		return allReportTypes;
+	}
+
+	public ArrayList<Farmer> getAllFarmers() {
+		return farmers;
+	}
+
+	
 }

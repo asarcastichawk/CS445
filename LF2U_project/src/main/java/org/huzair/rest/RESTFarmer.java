@@ -221,6 +221,12 @@ import com.google.gson.Gson;
 		        
 		        return Response.ok()/*(builder.build())*/.build();
 		}
+		@Path("{fid}/reports")
+		@GET
+	    public Response viewReportType(@PathParam("fid") int fid) {
+				String sjson = gson.toJson(bi.allReportTypes());
+				return Response.ok(sjson).build(); 
+		}
 		
 	}
 

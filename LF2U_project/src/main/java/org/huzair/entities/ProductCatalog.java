@@ -3,10 +3,13 @@ package org.huzair.entities;
 
 public class ProductCatalog {
 	private int gcpid;
-	String name;
+	private String name;
 	
 	public ProductCatalog(String name){
 		this.name = name;
+	}
+	public ProductCatalog(ProductCatalog p){
+		this.name = p.getName();
 	}
 	
 	public void setName(String name){
@@ -30,6 +33,11 @@ public class ProductCatalog {
 	
 	public boolean matchesId(int gcpid) {
 	    return(gcpid == this.gcpid);
+	}
+	public boolean validate(){
+		if(this.name!=null)
+			return true;
+		return false;
 	}
 
 }

@@ -1,12 +1,8 @@
 package org.huzair.entities;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
 public class Order {
-	
-	
 	
 	private int oid;
 	private int fid;
@@ -24,7 +20,6 @@ public class Order {
 		this.fid = fid;
 		this.order_detail = new ArrayList<OrderDetail>(order_detail);
 		this.delivery_note = delivery_note;	
-		
 	}
 	
 	public Order(Order another) {
@@ -35,6 +30,7 @@ public class Order {
 	    this.order_date = another.getOrder_date();
 	    this.planned_delivery_date = another.getPlanned_delivery_date();
 	  }
+	
 	public void setOid(int oid){
 		this.oid = oid;
 	}
@@ -51,7 +47,6 @@ public class Order {
 	public int getOid() {
 		return oid;
 	}
-	
 	public boolean matchesId(int oid) {
 	    return(oid == this.oid);
 	}
@@ -100,7 +95,7 @@ public class Order {
 			}
 		}
 		return products_total;
-}
+	}
 	public boolean validate() {
 		boolean isValid = false;
 		if(this.fid > 0)
@@ -115,11 +110,26 @@ public class Order {
         }
 		return isValid;
 	}
-
 	public boolean statusValidate() {
 		String status = this.status;
 		if(status.equalsIgnoreCase("Cancelled"))
 			return true;
 		return false;
+	}
+	public boolean match(String keyword){
+		String all = oid+" "+cid+" "+fid+" "+delivery_note+" "+status+" "
+					 +order_date+" "+planned_delivery_date+" "+actual_delivery_date
+					 +" "+products_total;
+		all = all.toLowerCase();
+		boolean order = all.matches(".*\\b" + keyword + "\\b.*");
+		if(order)
+        	return true;
+		Iterator<OrderDetail> o = order_detail.listIterator();
+        while(o.hasNext()) {
+            OrderDetail odetail = o.next();
+            if(odetail.match(keyword))
+            	return true;
+        }
+        return false;
 	}
 }

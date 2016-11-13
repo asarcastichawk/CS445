@@ -22,4 +22,9 @@ public class FarmInfo {
 	public String getFarmName(){
 		return name;
 	}
+	public boolean match(String keyword){
+		String all = name+" "+address+" "+phone+" "+web;
+		all = all.toLowerCase();
+		return all.matches(".*\\b" + keyword + "\\b.*");
+	}
 }

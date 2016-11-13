@@ -129,6 +129,12 @@ public class CustomerManager implements CustomerBI{
 		OrderReport oreport = new OrderReport(o);
 		return oreport;
 	}
+	public ArrayList<Order> viewAllOrders(){
+		return orders;
+	}
+	public ArrayList<Customer> viewAllCustomers(){
+		return customers;
+	}
 }
 
 

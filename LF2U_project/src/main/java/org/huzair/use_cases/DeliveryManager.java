@@ -15,7 +15,7 @@ public class DeliveryManager implements DeliveryBI {
 	@Override
 	public void UpdateStatus(int oid, String status) {
 		Order o = cm.viewById(oid);
-		o.setStatus("status");
+		o.setStatus(status);
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		Date today = Calendar.getInstance().getTime();
 		o.setActualDate(dateFormat.format(today));

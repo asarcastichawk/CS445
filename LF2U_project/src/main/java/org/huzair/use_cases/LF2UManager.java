@@ -1,22 +1,43 @@
 package org.huzair.use_cases;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.huzair.entities.Farmer;
 import org.huzair.entities.Manager;
 import org.huzair.entities.ProductCatalog;
+import org.huzair.report.FarmerReportType;
+import org.huzair.report.ManagerReportType;
 import org.huzair.boundary_interfaces.ManagerBI;
 
 public class LF2UManager implements ManagerBI{
 
-	static AtomicInteger atomicInteger = new AtomicInteger();
-	ArrayList<ProductCatalog> allproducts = new ArrayList<ProductCatalog>();
-	ArrayList<Manager> allmanagers = new ArrayList<Manager>();
+	private static AtomicInteger productAtomicInteger = new AtomicInteger();
+	private static AtomicInteger managerAtomicInteger = new AtomicInteger();
+	private static AtomicBoolean isCreated = new AtomicBoolean();
+	private static ArrayList<ProductCatalog> allproducts = new ArrayList<ProductCatalog>();
+	private static ArrayList<Manager> allmanagers = new ArrayList<Manager>();
+	private DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 	
 	public LF2UManager(){
-		
+		if(!isCreated.getAndSet(true)){
+			createSystem();
+		}
 	}
+	public void createSystem(){
+		Date today = Calendar.getInstance().getTime();
+		String created_date = (dateFormat.format(today));
+		Manager manager = new Manager("Super User", "System", created_date, "123-0987-654", "superuser@example.com");
+		manager.setMid(0);
+		allmanagers.add(manager);
+}
 	
 	@Override
 	public ArrayList<ProductCatalog> viewCatalog() {
@@ -24,13 +45,12 @@ public class LF2UManager implements ManagerBI{
 	}
 
 	@Override
-	public String addProduct(ProductCatalog p) {
-		ProductCatalog product = p;
-		product.setGcpid(atomicInteger.incrementAndGet());
+	public int addProduct(ProductCatalog p) {
+		ProductCatalog product = new ProductCatalog(p);
+		product.setGcpid(productAtomicInteger.incrementAndGet());
 		allproducts.add(product);
 		int gcpid_as_int = product.getGcpid();
-		String gcpid_as_str = Integer.toString(gcpid_as_int);
-		return gcpid_as_str;
+		return gcpid_as_int;
 	}
 
 	@Override
@@ -67,14 +87,32 @@ public class LF2UManager implements ManagerBI{
 	}
 
 	@Override
-	public String createManager(Manager m) {
+	public int createManager(Manager m) {
 		Manager manager = m;
-		manager.setMid(atomicInteger.incrementAndGet());
+		manager.setMid(managerAtomicInteger.incrementAndGet());
 		allmanagers.add(manager);
 		int mid_as_int = manager.getMid();
-		String mid_as_str = Integer.toString(mid_as_int);
-		return mid_as_str;
+		return mid_as_int;
+	}
+	public ProductCatalog viewProductById(int gcpid){
+		Iterator<ProductCatalog> p = allproducts.listIterator();
+        while(p.hasNext()) {
+            ProductCatalog pcatalog = p.next();
+            if(pcatalog.matchesId(gcpid))
+            	return pcatalog;
+        }
+		return null;
+	}
+	@Override
+	public ArrayList<ManagerReportType> allReportTypes() {
+		ManagerReportType reports = new ManagerReportType();
+		ArrayList<ManagerReportType> allReportTypes = reports.getAllTypes();
+		return allReportTypes;
 	}
 
+	
 }
+
+	
+
 

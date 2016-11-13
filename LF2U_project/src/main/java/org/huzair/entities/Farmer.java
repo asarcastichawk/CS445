@@ -1,7 +1,7 @@
 package org.huzair.entities;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 
 public class Farmer {
@@ -85,5 +85,19 @@ public class Farmer {
 		
 		return false;
 	}
-	
+	public boolean match(String keyword){
+		StringBuilder sb = new StringBuilder();
+		for (String s : delivers_to)
+			{sb.append(s+" ");}
+		String s = sb.toString();
+		s = s.toLowerCase();
+		boolean delivers = s.matches(".*\\b" + keyword + "\\b.*");
+		boolean farm = farm_info.match(keyword);
+		boolean personalinfo = personal_info.match(keyword);
+		  //  sb.append("\t");
+		if(farm||delivers||personalinfo)
+			return true;
+		return false;
+		
+	}
 }

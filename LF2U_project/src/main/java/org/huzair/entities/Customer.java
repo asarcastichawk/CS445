@@ -1,7 +1,4 @@
 package org.huzair.entities;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class Customer {
 	
 
@@ -92,7 +89,11 @@ public boolean validate() {
 	if(name!=null && street!= null && zip!=null && phone!=null && email!=null)
 		return true;
 	return false;
-	
+}
+public boolean match(String keyword) {
+	String all = name+" "+street+" "+zip+" "+phone+" "+email;
+	all = all.toLowerCase();
+	return all.matches(".*\\b" + keyword + "\\b.*");
 }
 
 }

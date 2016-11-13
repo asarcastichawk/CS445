@@ -16,4 +16,9 @@ public boolean validate(){
 		return true;
 	return false;
 }
+public boolean match(String keyword){
+	String all = name+" "+email+" "+phone+" "+phone;
+	all = all.toLowerCase();
+	return all.matches(".*\\b" + keyword + "\\b.*");
+}
 }

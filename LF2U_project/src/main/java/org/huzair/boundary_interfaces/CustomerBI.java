@@ -15,5 +15,7 @@ public interface CustomerBI {
 	Order viewById(int oid);
 	OrderReport viewOrderReport(int oid);
 	void cancelOrder(int cid, int oid, String status);
+	public ArrayList<Order> viewAllOrders();
+	ArrayList<Customer> viewAllCustomers();
 	
 }

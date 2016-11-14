@@ -2,7 +2,7 @@ package org.huzair.entities;
 
 
 public class ProductCatalog {
-	private int gcpid;
+	private String gcpid;
 	private String name;
 	
 	public ProductCatalog(String name){
@@ -12,18 +12,16 @@ public class ProductCatalog {
 		this.name = p.getName();
 	}
 	
-	public void setName(String name){
-		this.name = name;
-	}
+	
 	public String getName(){
 		return name;
 	}
 	
-	public int getGcpid() {
+	public String getGcpid() {
 		return gcpid;
 	}
 
-	public void setGcpid(int gcpid) {
+	public void setGcpid(String gcpid) {
 		this.gcpid = gcpid;
 	}
 	
@@ -31,8 +29,8 @@ public class ProductCatalog {
 		name = p.getName();
 	}
 	
-	public boolean matchesId(int gcpid) {
-	    return(gcpid == this.gcpid);
+	public boolean matchesId(String gcpid) {
+	    return(this.gcpid.equalsIgnoreCase(gcpid));
 	}
 	public boolean validate(){
 		if(this.name!=null)

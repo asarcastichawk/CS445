@@ -14,12 +14,13 @@ public class Order {
 	private String planned_delivery_date;
 	private String actual_delivery_date;
 	private double products_total;
-	//private double order_total;
+
 	public Order(int fid, ArrayList<OrderDetail> order_detail, String delivery_note)
 	{
 		this.fid = fid;
 		this.order_detail = new ArrayList<OrderDetail>(order_detail);
 		this.delivery_note = delivery_note;	
+		this.products_total = getProductsTotal();
 	}
 	
 	public Order(Order another) {
@@ -86,6 +87,7 @@ public class Order {
 	public void setFid(int fid) {
 		this.fid = fid;
 	}
+	
 	public double getProductsTotal(){
 		if(this.order_detail!=null){	
 			Iterator<OrderDetail> o = order_detail.listIterator();
@@ -96,10 +98,10 @@ public class Order {
 		}
 		return products_total;
 	}
+	
+	//Mark
 	public boolean validate() {
-		boolean isValid = false;
-		if(this.fid > 0)
-			isValid = true;
+		boolean isValid = this.fid > 0;
 		if(this.order_detail!=null){	
 			Iterator<OrderDetail> o = order_detail.listIterator();
 			while(o.hasNext()) {
@@ -110,26 +112,26 @@ public class Order {
         }
 		return isValid;
 	}
+	
 	public boolean statusValidate() {
 		String status = this.status;
-		if(status.equalsIgnoreCase("Cancelled"))
-			return true;
-		return false;
+		return status.equalsIgnoreCase("Cancelled");
+			
 	}
+
 	public boolean match(String keyword){
-		String all = oid+" "+cid+" "+fid+" "+delivery_note+" "+status+" "
-					 +order_date+" "+planned_delivery_date+" "+actual_delivery_date
-					 +" "+products_total;
-		all = all.toLowerCase();
-		boolean order = all.matches(".*\\b" + keyword + "\\b.*");
-		if(order)
-        	return true;
 		Iterator<OrderDetail> o = order_detail.listIterator();
         while(o.hasNext()) {
             OrderDetail odetail = o.next();
             if(odetail.match(keyword))
-            	return true;
-        }
-        return false;
+            	return true;}
+        String all = this.toString();
+        return all.matches(".*\\b" + keyword + "\\b.*");
+	}
+	
+	public String toString(){
+		return	 (oid+" "+cid+" "+fid+" "+delivery_note+" "+status+" "
+				 +order_date+" "+planned_delivery_date+" "+actual_delivery_date
+				 +" "+products_total).toLowerCase();
 	}
 }

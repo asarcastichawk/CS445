@@ -9,12 +9,14 @@ public interface FarmerBI {
 	Farmer viewAccount(int fid);
 	ArrayList<Farmer> viewFarmers(String zip);
 	ArrayList<StoreProduct> viewStore(int fid);
-	int addProduct(int fid,StoreProduct s);
-	StoreProduct viewProduct(int fid,int fspid);
-	void modifyProduct(int fid,int fspid,StoreProduct s);
+	String addProduct(int fid,StoreProduct s);
+	StoreProduct viewProduct(int fid,String fspid);
+	void modifyProduct(int fid,String fspid,StoreProduct s);
 	double ViewDelivery(int fid);
 	void UpdateDelivery(int fid, double dc);
 	ArrayList<FarmerReportType> allReportTypes();
+	ArrayList<Farmer> getAllFarmers();
+	
 	
 	
 }

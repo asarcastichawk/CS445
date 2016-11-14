@@ -13,15 +13,15 @@ public class FarmInfo {
 		this.phone = phone;
 		this.web = web;
 	}
-	
 	public boolean validate(){
 		if(name!=null && address!= null && phone!=null)
 			return true;
 		return false;
 	}
-	public String getFarmName(){
-		return name;
+	public String getName(){
+		return this.name;
 	}
+	
 	public boolean match(String keyword){
 		String all = name+" "+address+" "+phone+" "+web;
 		all = all.toLowerCase();

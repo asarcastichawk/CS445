@@ -11,15 +11,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-
 import org.huzair.boundary_interfaces.CustomerBI;
-import org.huzair.boundary_interfaces.FarmerBI;
 import org.huzair.entities.Customer;
-import org.huzair.entities.Farmer;
 import org.huzair.entities.Order;
-import org.huzair.entities.StoreProduct;
 import org.huzair.use_cases.CustomerManager;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -30,7 +25,7 @@ public class RESTCustomer {
 	private CustomerBI bi = new CustomerManager();
 	Gson gson = new Gson();
 	JsonObject json = new JsonObject();
-
+	
 	@POST
     public Response createAccount(@Context UriInfo uriInfo,String json_in) {
 			Customer cust;

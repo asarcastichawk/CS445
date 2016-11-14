@@ -3,7 +3,8 @@
 	import org.huzair.entities.Farmer;
 	import org.huzair.entities.StoreProduct;
 	import org.huzair.use_cases.FarmerManager;
-	import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 	import javax.ws.rs.GET;
 	import javax.ws.rs.POST;
 	import javax.ws.rs.PUT;
@@ -31,21 +32,14 @@ import com.google.gson.Gson;
 		@POST
 	    public Response createFarm(@Context UriInfo uriInfo,String json_in) {
 				Farmer farm;
-				try{
-					farm = gson.fromJson(json_in, Farmer.class);
-				}
-				catch(Exception e){
-					return Response.status(400).entity(gson.toJson(e)).build();
-				}
+				try{ farm = gson.fromJson(json_in, Farmer.class); }
+				catch(Exception e){ return Response.status(400).entity(gson.toJson(e)).build(); }
 				if(!farm.validate())
 					return Response.status(Response.Status.BAD_REQUEST).build();
-				
 				int id = bi.createAccount(farm);
 				json.addProperty("fid", id);
-				
 				UriBuilder builder = uriInfo.getAbsolutePathBuilder();
 		        builder.path(Integer.toString(id));
-		        
 		        return Response.created(builder.build()).entity(json.toString()).build();
 			}
 		
@@ -56,16 +50,10 @@ import com.google.gson.Gson;
 				farm = bi.viewAccount(fid);
 				if(farm==null)
 					 return Response.status(Response.Status.NOT_FOUND).build();
-				try{
-					farm = gson.fromJson(json_in, Farmer.class);
-				}
-				catch(Exception e){
-					return Response.status(400).entity(gson.toJson(e)).build();
-				}
-				
+				try{ farm = gson.fromJson(json_in, Farmer.class); }
+				catch(Exception e){ return Response.status(400).entity(gson.toJson(e)).build(); }
 				if(!farm.validate())
 					return Response.status(Response.Status.BAD_REQUEST).build();
-				
 				bi.updateAccount(fid, farm);
 				return Response.status(200).build(); 
 		}
@@ -78,12 +66,8 @@ import com.google.gson.Gson;
 				if(farm==null)
 					 return Response.status(Response.Status.NOT_FOUND).build();
 				String sjson;
-				try{
-					sjson = gson.toJson(farm);
-				}
-				catch(Exception e){	
-					return Response.status(400).entity(gson.toJson(e)).build();
-				}
+				try{ sjson = gson.toJson(farm); }
+				catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build(); }
 				return Response.ok(sjson).build(); 
 		}
 
@@ -100,19 +84,6 @@ import com.google.gson.Gson;
 			farm = bi.viewAccount(fid);
 			if(farm==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
-			/*else if(bi.viewStore(fid)==null)
-				 return Response.status(Response.Status.NOT_FOUND).build();*/
-			//bi.viewStore(fid);
-			/*Gson gson = new Gson();
-			String json;
-			try{
-			json = gson.toJson(bi.viewStore(fid));
-			}
-			catch(Exception e)
-			{
-				return Response.ok(e).build(); 
-			}
-			return Response.ok("s").build(); */
 			String sjson = gson.toJson(bi.viewStore(fid));
 			return Response.ok(sjson).build();
 				
@@ -120,34 +91,24 @@ import com.google.gson.Gson;
 		@Path("{id}/products")
 		@POST
 		public Response addProduct(@Context UriInfo uriInfo, @PathParam("id") int fid, String json_in) {
-				
-				Farmer farm;
-				farm = bi.viewAccount(fid);
+				Farmer farm = bi.viewAccount(fid);
 				if(farm==null)
 					return Response.status(Response.Status.NOT_FOUND).build();
 				StoreProduct product;
-				try{
-					product = gson.fromJson(json_in, StoreProduct.class);
-				}
-				catch(Exception e){	
-					return Response.status(400).entity(gson.toJson(e)).build();
-				}
-				
-				if(!product.validate())
+				try{ product = gson.fromJson(json_in, StoreProduct.class);}
+				catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build();}
+				String id = bi.addProduct(fid, product);
+				if(!product.validate()||id==null)
 					return Response.status(Response.Status.BAD_REQUEST).build();
-				
-				int id = bi.addProduct(fid, product);
 				json.addProperty("fspid", id );
-				
 				UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-		        builder.path(Integer.toString(id));
-		        
+		        builder.path(id);
 		        return Response.created(builder.build()).entity(json.toString()).build(); 
 			}
 		
 		@Path("{fid}/products/{fspid}")
 		@GET
-	    public Response viewProduct(@PathParam("fid") int fid, @PathParam("fspid") int fspid) {
+	    public Response viewProduct(@PathParam("fid") int fid, @PathParam("fspid") String fspid) {
 			Farmer farm;
 			farm = bi.viewAccount(fid);
 			if(farm==null)
@@ -155,20 +116,14 @@ import com.google.gson.Gson;
 			else if(bi.viewStore(fid)==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
 			String json;
-			try{
-				json = gson.toJson(bi.viewProduct(fid, fspid));
-			}
-			catch(Exception e){
-				return Response.status(400).entity(gson.toJson(e)).build();
-			}
+			try{ json = gson.toJson(bi.viewProduct(fid, "fspid"+fspid)); }
+			catch(Exception e){ return Response.status(400).entity(gson.toJson(e)).build(); }
 			return Response.ok(json.toString()).build(); 
-				
 		}
 		
 		@Path("{fid}/delivery_charge")
 		@GET
 	    public Response viewDelivery(@PathParam("fid") int fid) {
-				
 				Farmer farm = bi.viewAccount(fid);
 				if(farm==null)
 					 return Response.status(Response.Status.NOT_FOUND).build();
@@ -188,45 +143,49 @@ import com.google.gson.Gson;
 				double x = json.getDouble("delivery_charge");
 				farm.setDeliveryCharge(x);
 				}
-				catch(Exception e){	
-					return Response.status(400).entity(gson.toJson(e)).build();
-				}
+			catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build(); }
 			return Response.status(200).build();  
 			}
 		
 		@Path("{id}/products/{fspid}")
 		@POST
-	    public Response modifyProduct(@Context UriInfo uriInfo, @PathParam("id") int fid,@PathParam("fspid") int fspid, String json_in) {
-				/*Farmer farm;
-				farm = bi.viewAccount(fid);
-				if(farm==null)
-					 return Response.status(Response.Status.NOT_FOUND).build();
-*/
+	    public Response modifyProduct(@Context UriInfo uriInfo, @PathParam("id") int fid,@PathParam("fspid") String fspid, String json_in) {
 				StoreProduct sproduct;
-				sproduct = bi.viewProduct(fid, fspid);
-				
+				sproduct = bi.viewProduct(fid, "fspid"+fspid);
 				if(sproduct==null)
 					return Response.status(Response.Status.NOT_FOUND).build();
-				try{
-					sproduct = gson.fromJson(json_in, StoreProduct.class);
-				}
-				catch(Exception e){	
-					return Response.status(400).entity(gson.toJson(e)).build();
-				}
-				
-				bi.modifyProduct(fid, fspid, sproduct);
-				
-				//UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-		        //builder.path(Integer.toString(fspid));
-		        
-		        return Response.ok()/*(builder.build())*/.build();
+				try{ sproduct = gson.fromJson(json_in, StoreProduct.class); }
+				catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build();}
+				bi.modifyProduct(fid, "fspid"+fspid, sproduct);
+				UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+		        return Response.created(builder.build()).entity("").build(); 
 		}
+	
 		@Path("{fid}/reports")
 		@GET
 	    public Response viewReportType(@PathParam("fid") int fid) {
 				String sjson = gson.toJson(bi.allReportTypes());
 				return Response.ok(sjson).build(); 
 		}
-		
-	}
+		@Path("/reports")
+		@GET
+	    public Response viewReport() {
+			JSONObject jo = new JSONObject();
+			try{
+			
+			jo.accumulate("f", gson.toJson(bi.viewAccount(1)));
+			jo.put("lastName", "Doe");
+			}
+			catch(Exception e){}
+			JSONArray ja = new JSONArray();
+			ja.put(jo);
 
+			JSONObject mainObj = new JSONObject();
+			try{
+			mainObj.put("employees", ja);
+			mainObj.put("frid", 1);
+			}
+			catch(Exception e){}
+				return Response.ok(mainObj.toString()).build(); 
+		}
+	}

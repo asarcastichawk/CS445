@@ -33,8 +33,6 @@ public class ManagerReportType {
 		alltypes.add(R4);
 		alltypes.add(R5);
 	}
-	public int getMrid() {
-		return mrid;
-	}
+
 	
 }

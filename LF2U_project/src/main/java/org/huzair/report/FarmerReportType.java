@@ -1,12 +1,15 @@
 package org.huzair.report;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.huzair.entities.Manager;
 
 public class FarmerReportType {
 
 	private int frid;
 	private String name;
-	ArrayList<FarmerReportType> alltypes;
+	private ArrayList<FarmerReportType> alltypes;
 	
 	public FarmerReportType(int frid, String name){
 		
@@ -21,14 +24,24 @@ public class FarmerReportType {
 		return alltypes;
 	}
 	private void allReportTypes(){
-		FarmerReportType R701 = new FarmerReportType(701,"Orders to deliver today");
-		FarmerReportType R702 = new FarmerReportType(702,"Orders to deliver tomorrow");
-		FarmerReportType R703 = new FarmerReportType(703,"Revenue report");
-		FarmerReportType R704 = new FarmerReportType(704,"Orders delivery report");
+		FarmerReportType R1 = new FarmerReportType(701,"Orders to deliver today");
+		FarmerReportType R2 = new FarmerReportType(702,"Orders to deliver tomorrow");
+		FarmerReportType R3 = new FarmerReportType(703,"Revenue report");
+		FarmerReportType R4 = new FarmerReportType(704,"Orders delivery report");
 		alltypes = new ArrayList<FarmerReportType>();
-		alltypes.add(R701);
-		alltypes.add(R702);
-		alltypes.add(R703);
-		alltypes.add(R704);
+		alltypes.add(R1);
+		alltypes.add(R2);
+		alltypes.add(R3);
+		alltypes.add(R4);
 	}
-}
+	public String getName(int frid) {
+		Iterator<FarmerReportType> frt = alltypes.listIterator();
+        while(frt.hasNext()) {
+        	FarmerReportType report = frt.next();
+            if(report.frid==frid)
+            	return report.name;
+        }
+		return null;
+	}
+	}
+

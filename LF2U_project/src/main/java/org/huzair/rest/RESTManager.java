@@ -54,7 +54,7 @@ public class RESTManager {
 			if(!pcatalog.validate())
 				return Response.status(Response.Status.BAD_REQUEST).build();
 			
-			int id = bi.addProduct(pcatalog);
+			String id = bi.addProduct(pcatalog);
 			json.addProperty("gcpid", id );
 	        
 	        return Response.status(201).entity(json.toString()).build();
@@ -63,7 +63,8 @@ public class RESTManager {
 	@POST
     public Response updateCatalog(@PathParam("gcpid") int gcpid, String json_in) {
 			ProductCatalog pcatalog;
-			pcatalog = bi.viewProductById(gcpid);
+			String gcpid_as_str = "gcpid"+gcpid;
+			pcatalog = bi.viewProductById(gcpid_as_str);
 			if(pcatalog==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
 			try{
@@ -76,7 +77,7 @@ public class RESTManager {
 			if(!pcatalog.validate())
 				return Response.status(Response.Status.BAD_REQUEST).build();
 			
-			bi.updateProduct(gcpid, pcatalog);
+			bi.updateProduct(gcpid_as_str, pcatalog);
 			return Response.status(200).build(); 
 	}
 	@Path("/accounts")
@@ -89,7 +90,7 @@ public class RESTManager {
 	@GET
 	public Response viewManagerById(@PathParam("mid") int mid){
 		Manager manager;
-		manager = bi.viewManagerById(mid);
+		manager = bi.viewManagerById("mid"+mid);
 			
 		if(manager==null)
 			 return Response.status(Response.Status.NOT_FOUND).build();

@@ -2,20 +2,26 @@ package org.huzair.use_cases;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.huzair.boundary_interfaces.FarmerBI;
+import org.huzair.entities.Customer;
 import org.huzair.entities.Farmer;
+import org.huzair.entities.Order;
+import org.huzair.entities.ProductCatalog;
 import org.huzair.entities.Store;
 import org.huzair.entities.StoreProduct;
+import org.huzair.report.FarmerReport;
 import org.huzair.report.FarmerReportType;
 
 public class FarmerManager implements FarmerBI {
 	
-	static AtomicInteger atomicInteger = new AtomicInteger();
-	static AtomicInteger atomicInteger_products = new AtomicInteger();
+	private static AtomicInteger atomicInteger = new AtomicInteger();
+	private static AtomicInteger atomicInteger_products = new AtomicInteger();
 	private static ArrayList<Farmer> farmers = new ArrayList<Farmer>();
-
+	private static LF2UManager LM = new LF2UManager();
+	
 	//Create farmer account;
 	@Override
 	public int createAccount(Farmer f) {
@@ -91,18 +97,22 @@ public class FarmerManager implements FarmerBI {
 
 	//Add product to store
 	@Override
-	public int addProduct(int fid, StoreProduct sproducts) {
+	public String addProduct(int fid, StoreProduct sproducts) {
+		if(LM.viewProductById(sproducts.getGcpid())==null)
+			return null;
 		Farmer farm = getFarmerById(fid);
 		Store store = farm.getStore();
 		StoreProduct s = sproducts;
-		s.setFspid(atomicInteger_products.incrementAndGet());
+		s.setFspid("fspid"+atomicInteger_products.incrementAndGet());
+		ProductCatalog pcatalog = LM.viewProductById(s.getGcpid());
+		s.setName(pcatalog.getName());
 		store.setStoreProducts(s);
 		return s.getFspid();
 	}
 
 	//Modify store product
 	@Override
-	public void modifyProduct(int fid, int fspid, StoreProduct s) {
+	public void modifyProduct(int fid, String fspid, StoreProduct s) {
 		StoreProduct sproduct = viewProduct(fid,fspid);
 		if(sproduct!=null)
 			sproduct.setProduct(s);
@@ -122,18 +132,22 @@ public class FarmerManager implements FarmerBI {
 		farm.setDeliveryCharge(dc);
 	}
 
+	//View product by fid
 	@Override
-	public StoreProduct viewProduct(int fid, int fspid) {
+	public StoreProduct viewProduct(int fid, String fspid) {
 		ArrayList<StoreProduct> sp = viewStore(fid);
+		if(sp==null)
+			return null;
 		Iterator<StoreProduct> s = sp.listIterator();
         while(s.hasNext()) {
             StoreProduct sproducts = s.next();
-            if(sproducts.matchesId(fid))
+            if(sproducts.matchesId(fspid))
             	return sproducts;
         }
 		return null;
 	}
 
+	//Get all report types for farmer
 	@Override
 	public ArrayList<FarmerReportType> allReportTypes() {
 		FarmerReportType reports = new FarmerReportType();
@@ -141,9 +155,9 @@ public class FarmerManager implements FarmerBI {
 		return allReportTypes;
 	}
 
+	//Get all farmers
 	public ArrayList<Farmer> getAllFarmers() {
 		return farmers;
 	}
-
 	
 }

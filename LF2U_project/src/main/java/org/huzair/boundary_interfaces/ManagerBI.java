@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public interface ManagerBI {
 	ArrayList<ProductCatalog> viewCatalog();
-	int addProduct (ProductCatalog p);
-	void updateProduct (int gcpid, ProductCatalog p);
+	String addProduct (ProductCatalog p);
+	void updateProduct (String gcpid, ProductCatalog p);
 	ArrayList<Manager> viewAllManagers();
-	Manager viewManagerById(int mid);
-	int createManager(Manager m);
-	ProductCatalog viewProductById(int gcpid);
+	Manager viewManagerById(String mid);
+	//int createManager(Manager m);
+	ProductCatalog viewProductById(String gcpid);
 	ArrayList<ManagerReportType> allReportTypes();
 }

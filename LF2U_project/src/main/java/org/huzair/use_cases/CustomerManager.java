@@ -9,12 +9,8 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.huzair.boundary_interfaces.CustomerBI;
 import org.huzair.entities.Customer;
-import org.huzair.entities.Farmer;
 import org.huzair.entities.Order;
-import org.huzair.entities.Store;
-import org.huzair.entities.StoreProduct;
 import org.huzair.report.OrderReport;
-
 
 public class CustomerManager implements CustomerBI{
 
@@ -39,9 +35,9 @@ public class CustomerManager implements CustomerBI{
 	@Override
 	public void updateAccount(int cid, Customer c) {
 		Customer cust = getCustomerById(cid);
-		if(cust!=null){
-		cust.setCustomer(c);
-		}
+		if(cust!=null)
+			cust.setCustomer(c);
+		
 	}
 	
 	//Searches customer by id
@@ -59,10 +55,9 @@ public class CustomerManager implements CustomerBI{
 	@Override
 	public Customer viewAccount(int cid) {
 		Customer customer = getCustomerById(cid);
-		if(customer!= null)
+		///if(customer!= null)
 			return customer;
-		return null;
-		
+		//return null;
 	}
 
 	//Creates an order if the customer id is found and returns the order id
@@ -82,7 +77,6 @@ public class CustomerManager implements CustomerBI{
 		orders.add(order);
 		int oid_as_int = order.getOid();
 		return oid_as_int;
-		
 	}
 	
 	//Returns all orders by customer id
@@ -101,6 +95,7 @@ public class CustomerManager implements CustomerBI{
         }
 		return allorders;
 	}
+	
 	//Searches order by order id
 	@Override
 	public Order viewById(int oid) {
@@ -112,29 +107,33 @@ public class CustomerManager implements CustomerBI{
         }
 		return null;
 	}
+	
 	//Cancels order using order and customer id if instruction is "cancelled"
 	@Override
 	public void cancelOrder(int cid, int oid, String status) {
 		if(status.equalsIgnoreCase(cancel)){
 			ArrayList<Order> all_orders = viewAllOrders(cid);
 			Order order = viewById(oid);
-			if(all_orders.contains(order))
+			if(order!=null&&all_orders.contains(order))
 				order.setStatus(cancel);
 	        }
 		}
-
+	
+	//View order report
 	@Override
 	public OrderReport viewOrderReport(int oid) {
 		Order o = viewById(oid);
 		OrderReport oreport = new OrderReport(o);
 		return oreport;
 	}
+	
+	//View all orders
 	public ArrayList<Order> viewAllOrders(){
 		return orders;
 	}
+	
+	//View all customers
 	public ArrayList<Customer> viewAllCustomers(){
 		return customers;
 	}
 }
-
-

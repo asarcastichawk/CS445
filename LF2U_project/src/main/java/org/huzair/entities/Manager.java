@@ -1,10 +1,8 @@
 package org.huzair.entities;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class Manager {
 		
-		private int mid;
+		private String mid;
 		private String name;
 		private String created_by;
 		private String created_date;
@@ -20,16 +18,15 @@ public class Manager {
 			this.email = email;
 		}
 
-		public int getMid() {
-		    return this.mid;
-		}
-		public void setMid(int mid){
+		public void setMid(String mid){
 			this.mid = mid;
 		}
 		
-		public boolean matchesId(int mid) {
-		    return(mid == this.mid);
+		public boolean matchesId(String mid) {
+		    return(mid.equalsIgnoreCase(this.mid));
 		}
-		
+		public String getName() {
+			return name;
+		}
 }
 

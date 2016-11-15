@@ -2,9 +2,9 @@ package org.huzair.entities;
 
 public class StoreProduct {
 	private String fspid;
+	private String name = "";
 	private String gcpid;
 	private String note = "";
-	private String name = "";
 	private String start_date = "";
 	private String end_date = "";
 	private double price;
@@ -27,6 +27,9 @@ public class StoreProduct {
 
 	public String getNote() {
 		return note;
+	}
+	public void setGcpid(String gcpid){
+		this.gcpid = gcpid;
 	}
 	public String getStartDate() {
 		return start_date;

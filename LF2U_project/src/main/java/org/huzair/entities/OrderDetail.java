@@ -22,6 +22,9 @@ public class OrderDetail {
 		amount_asStr = amount + sp.getProductUnit();
 		return amount_asStr;
 	}
+	public double getPrice(){
+		return price;
+	}
 	public String getPriceAsStr(){
 		price_asStr = price + " per " + sp.getPrice();
 		return price_asStr;

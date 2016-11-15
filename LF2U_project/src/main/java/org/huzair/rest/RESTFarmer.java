@@ -1,12 +1,12 @@
 	package org.huzair.rest;
-	import org.huzair.boundary_interfaces.FarmerBI;
-	import org.huzair.entities.Farmer;
-	import org.huzair.entities.StoreProduct;
+import org.huzair.boundary_interfaces.FarmerBI;
+import org.huzair.entities.Farmer;
+import org.huzair.entities.StoreProduct;
 import org.huzair.report.FarmerReport;
 import org.huzair.use_cases.FarmerManager;
-import org.json.JSONArray;
 import org.json.JSONObject;
-	import javax.ws.rs.GET;
+import java.util.ArrayList;
+import javax.ws.rs.GET;
 	import javax.ws.rs.POST;
 	import javax.ws.rs.PUT;
 	import javax.ws.rs.Path;
@@ -67,14 +67,15 @@ import com.google.gson.Gson;
 				if(farm==null)
 					 return Response.status(Response.Status.NOT_FOUND).build();
 				String sjson;
-				try{ sjson = gson.toJson(farm); }
+				try{ sjson = gson.toJson(GET_Farmer.getFarmer(farm)); }
 				catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build(); }
 				return Response.ok(sjson).build(); 
 		}
 
 		@GET
 	    public Response viewFarmers(@QueryParam ("zip") String zip) {
-				String sjson = gson.toJson(bi.viewFarmers(zip));
+				ArrayList<Farmer> allfarmers = bi.viewFarmers(zip);
+				String sjson = gson.toJson(GET_Farmer.allGetFarmers(allfarmers));
 				return Response.ok(sjson).build(); 
 		}
 
@@ -85,7 +86,8 @@ import com.google.gson.Gson;
 			farm = bi.viewAccount("fid"+fid);
 			if(farm==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
-			String sjson = gson.toJson(bi.viewStore(fid));
+			ArrayList<StoreProduct> products = bi.viewStore("fid"+fid);
+			String sjson = gson.toJson(GET_Store.getAllStoreProducts(products));
 			return Response.ok(sjson).build();
 				
 		}
@@ -159,7 +161,7 @@ import com.google.gson.Gson;
 				catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build();}
 				bi.modifyProduct("fid"+fid, "fspid"+fspid, sproduct);
 				UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-		        return Response.created(builder.build()).entity("").build(); 
+		        return Response.ok(builder.build()).entity("").build(); 
 		}
 	
 		@Path("{fid}/reports")
@@ -174,6 +176,5 @@ import com.google.gson.Gson;
 			FarmerReport orderByFrid = new FarmerReport("frid"+frid,"fid"+fid);
 			String sjson = gson.toJson(orderByFrid);
 			return Response.ok(sjson).build();
-			
 		}
 	}

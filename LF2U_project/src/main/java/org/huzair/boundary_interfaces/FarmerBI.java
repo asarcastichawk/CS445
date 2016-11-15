@@ -18,7 +18,7 @@ public interface FarmerBI {
 	void UpdateDelivery(String fid, double dc);
 	ArrayList<FarmerReportType> allReportTypes();
 	ArrayList<Farmer> getAllFarmers();
-	
+	Map<String,Double> getHashmap();
 	
 	
 }

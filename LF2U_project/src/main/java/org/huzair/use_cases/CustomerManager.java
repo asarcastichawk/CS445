@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.huzair.boundary_interfaces.CustomerBI;
 import org.huzair.boundary_interfaces.FarmerBI;
@@ -67,8 +68,10 @@ public class CustomerManager implements CustomerBI{
 	//Creates an order if the customer id is found and returns the order id
 	@Override
 	public String createOrder(String cid, Order o) {
+		 System.out.print("1");
 		if(getCustomerById(cid)==null)
 			return null;
+		 System.out.print("2");
 		Order order = new Order(o);
 		order.setCid(cid);
 		order.setOid("oid"+orderAtomicInteger.incrementAndGet());
@@ -81,11 +84,17 @@ public class CustomerManager implements CustomerBI{
 		order.setPlanned_delivery_date(dateFormat.format(tom));
 		double total = 0;
 		
+		Map<String,Double> hashmap = FBi.getHashmap();
+		
 		ArrayList<OrderDetail> details = order.getAllDetails();
 		Iterator<OrderDetail> od = details.listIterator();
+		 System.out.print("yes");
         while(od.hasNext()) {
             OrderDetail odetails = od.next();
-            ArrayList<StoreProduct> sproducts = FBi.viewStore(order.getFid());
+            odetails.setPrice(hashmap.get(odetails.getFspid()));
+            System.out.print(odetails.getPrice());
+        }
+           /*A ArrayList<StoreProduct> sproducts = FBi.viewStore(order.getFid());
     		Iterator<StoreProduct> s = sproducts.listIterator();
             while(s.hasNext()) {
                 StoreProduct product = s.next();
@@ -93,11 +102,11 @@ public class CustomerManager implements CustomerBI{
                 	odetails.setPrice(product.getPrice());
                 	total = total+odetails.getLineItemTotal();
                 }
-            }  
-        }
-        order.setProductTotal(total);
-        order.setAllDetails(details);
-		orders.add(order);
+            }  */
+        //}
+     //   order.setProductTotal(total);
+       // order.setAllDetails(details);
+		//orders.add(order);
 		String oid_as_str = order.getOid();
 		return oid_as_str;
 	}

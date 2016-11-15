@@ -43,7 +43,6 @@ public class RESTCustomer {
 			
 			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
 	        builder.path(id);
-	        
 	        return Response.created(builder.build()).entity(json.toString()).build();
 		}
 	
@@ -104,7 +103,7 @@ public class RESTCustomer {
 			if(!order.validate())
 				return Response.status(Response.Status.BAD_REQUEST).build();
 			
-			id = bi.createOrder(cid, order);
+			id = bi.createOrder("cid"+cid, order);
 			json.addProperty("oid", id );
 			
 			UriBuilder builder = uriInfo.getAbsolutePathBuilder();

@@ -55,7 +55,7 @@ public class FarmerManager implements FarmerBI {
 	//Get farmer by zipcode
 	public Farmer getFarmerZip(Farmer farm, String zip){
 		ArrayList<String> farmer_zip = farm.getDeliversTo();
-		if(farmer_zip.contains(zip))
+		if(farmer_zip.contains(zip)||zip==null)
 			return farm;
 		return null;
 	}
@@ -88,7 +88,7 @@ public class FarmerManager implements FarmerBI {
 		ArrayList<StoreProduct> allproducts = new ArrayList<StoreProduct>();
 		Farmer farm = getFarmerById(fid);
 		if(farm==null)
-			return null;
+			return allproducts;
 		Store store = farm.getStore();
 		allproducts = store.getAllStoreProducts();
         return allproducts;
@@ -159,5 +159,8 @@ public class FarmerManager implements FarmerBI {
 	@Override
 	public ArrayList<Farmer> getAllFarmers() {
 		return farmers;
+	}
+	public Map<String,Double> getHashmap(){
+		return fspid_price;
 	}
 }

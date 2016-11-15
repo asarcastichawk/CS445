@@ -8,8 +8,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.huzair.boundary_interfaces.CustomerBI;
+import org.huzair.boundary_interfaces.FarmerBI;
 import org.huzair.entities.Customer;
 import org.huzair.entities.Order;
+import org.huzair.entities.OrderDetail;
+import org.huzair.entities.StoreProduct;
 import org.huzair.report.OrderReport;
 
 public class CustomerManager implements CustomerBI{
@@ -19,21 +22,22 @@ public class CustomerManager implements CustomerBI{
 	private static ArrayList<Customer> customers = new ArrayList<Customer>();
 	private static ArrayList<Order> orders = new ArrayList<Order>();
 	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	FarmerBI FBi = new FarmerManager();
 	private String cancel = "cancelled";
 	
 	//Creates an account for the customer and returns the customer id
 	@Override
-	public int createAccount(Customer c) {
+	public String createAccount(Customer c) {
 		Customer cust = c;
-		cust.setCid(atomicInteger.incrementAndGet());
+		cust.setCid("cid"+atomicInteger.incrementAndGet());
 		customers.add(cust);
-		int cid_as_int = cust.getCid();
-		return cid_as_int;
+		String cid_as_str = cust.getCid();
+		return cid_as_str;
 	}
 	
 	//updates the customer account if found by customer id
 	@Override
-	public void updateAccount(int cid, Customer c) {
+	public void updateAccount(String cid, Customer c) {
 		Customer cust = getCustomerById(cid);
 		if(cust!=null)
 			cust.setCustomer(c);
@@ -41,7 +45,7 @@ public class CustomerManager implements CustomerBI{
 	}
 	
 	//Searches customer by id
-	public Customer getCustomerById(int cid){
+	public Customer getCustomerById(String cid){
 		Iterator<Customer> c = customers.listIterator();
         while(c.hasNext()) {
             Customer customer = c.next();
@@ -53,7 +57,7 @@ public class CustomerManager implements CustomerBI{
 
 	//Returns customer account by id
 	@Override
-	public Customer viewAccount(int cid) {
+	public Customer viewAccount(String cid) {
 		Customer customer = getCustomerById(cid);
 		///if(customer!= null)
 			return customer;
@@ -62,26 +66,45 @@ public class CustomerManager implements CustomerBI{
 
 	//Creates an order if the customer id is found and returns the order id
 	@Override
-	public int createOrder(int cid, Order o) {
+	public String createOrder(String cid, Order o) {
 		if(getCustomerById(cid)==null)
-			return 0;
+			return null;
 		Order order = new Order(o);
 		order.setCid(cid);
-		order.setOid(orderAtomicInteger.incrementAndGet());
+		order.setOid("oid"+orderAtomicInteger.incrementAndGet());
 		order.setStatus("open");
+		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 0);
 		Date today = Calendar.getInstance().getTime();
 		order.setOrder_date(dateFormat.format(today));
 		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 1);
 		Date tom = Calendar.getInstance().getTime();
 		order.setPlanned_delivery_date(dateFormat.format(tom));
+		double total = 0;
+		
+		ArrayList<OrderDetail> details = order.getAllDetails();
+		Iterator<OrderDetail> od = details.listIterator();
+        while(od.hasNext()) {
+            OrderDetail odetails = od.next();
+            ArrayList<StoreProduct> sproducts = FBi.viewStore(order.getFid());
+    		Iterator<StoreProduct> s = sproducts.listIterator();
+            while(s.hasNext()) {
+                StoreProduct product = s.next();
+                if(odetails.getFspid()==product.getFspid()){
+                	odetails.setPrice(product.getPrice());
+                	total = total+odetails.getLineItemTotal();
+                }
+            }  
+        }
+        order.setProductTotal(total);
+        order.setAllDetails(details);
 		orders.add(order);
-		int oid_as_int = order.getOid();
-		return oid_as_int;
+		String oid_as_str = order.getOid();
+		return oid_as_str;
 	}
 	
 	//Returns all orders by customer id
 	@Override
-	public ArrayList<Order> viewAllOrders(int cid) {
+	public ArrayList<Order> viewAllOrders(String cid) {
 		ArrayList<Order> allorders = new ArrayList<Order>();
 		Customer cust = getCustomerById(cid);
 		if(cust==null)
@@ -89,8 +112,8 @@ public class CustomerManager implements CustomerBI{
 		Iterator<Order> o = orders.listIterator();
         while(o.hasNext()) {
             Order order = o.next();
-            int order_cid = order.getCid();
-            if(order_cid == cid)
+            String order_cid = order.getCid();
+            if(order_cid.equalsIgnoreCase(cid))
             	allorders.add(order);
         }
 		return allorders;
@@ -98,7 +121,7 @@ public class CustomerManager implements CustomerBI{
 	
 	//Searches order by order id
 	@Override
-	public Order viewById(int oid) {
+	public Order viewById(String oid) {
 		Iterator<Order> o = orders.listIterator();
         while(o.hasNext()) {
             Order order = o.next();
@@ -110,7 +133,7 @@ public class CustomerManager implements CustomerBI{
 	
 	//Cancels order using order and customer id if instruction is "cancelled"
 	@Override
-	public void cancelOrder(int cid, int oid, String status) {
+	public void cancelOrder(String cid, String oid, String status) {
 		if(status.equalsIgnoreCase(cancel)){
 			ArrayList<Order> all_orders = viewAllOrders(cid);
 			Order order = viewById(oid);
@@ -121,7 +144,7 @@ public class CustomerManager implements CustomerBI{
 	
 	//View order report
 	@Override
-	public OrderReport viewOrderReport(int oid) {
+	public OrderReport viewOrderReport(String oid) {
 		Order o = viewById(oid);
 		OrderReport oreport = new OrderReport(o);
 		return oreport;
@@ -136,4 +159,6 @@ public class CustomerManager implements CustomerBI{
 	public ArrayList<Customer> viewAllCustomers(){
 		return customers;
 	}
+	
+	
 }

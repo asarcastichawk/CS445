@@ -4,9 +4,9 @@ import java.util.Iterator;
 
 public class Order {
 	
-	private int oid;
-	private int fid;
-	private int cid;
+	private String oid;
+	private String fid;
+	private String cid;
 	private ArrayList<OrderDetail> order_detail = new ArrayList<OrderDetail>();
 	private String delivery_note;
 	private String status;
@@ -15,7 +15,7 @@ public class Order {
 	private String actual_delivery_date;
 	private double products_total;
 
-	public Order(int fid, ArrayList<OrderDetail> order_detail, String delivery_note)
+	public Order(String fid, ArrayList<OrderDetail> order_detail, String delivery_note)
 	{
 		this.fid = fid;
 		this.order_detail = new ArrayList<OrderDetail>(order_detail);
@@ -32,23 +32,27 @@ public class Order {
 	    this.planned_delivery_date = another.getPlanned_delivery_date();
 	  }
 	
-	public void setOid(int oid){
+	public void setOid(String oid){
 		this.oid = oid;
 	}
 	public ArrayList<OrderDetail> getAllDetails()
 	{
 		return order_detail;
 	}
-	public int getCid() {
+	public void setAllDetails(ArrayList<OrderDetail> order_detail)
+	{
+		this.order_detail = order_detail;
+	}
+	public String getCid() {
 		return cid;
 	}
-	public void setCid(int cid) {
+	public void setCid(String cid) {
 		this.cid = cid;
 	}
-	public int getOid() {
+	public String getOid() {
 		return oid;
 	}
-	public boolean matchesId(int oid) {
+	public boolean matchesId(String oid) {
 	    return(oid == this.oid);
 	}
 	public String getStatus() {
@@ -72,6 +76,12 @@ public class Order {
 	public String getOrder_date() {
 		return order_date;
 	}
+	public void setProductTotal(double products_total){
+		this.products_total = products_total;
+	}
+	public double getProductTotal(){
+		return products_total;
+	}
 	public void setOrder_date(String order_date) {
 		this.order_date = order_date;
 	}
@@ -81,10 +91,10 @@ public class Order {
 	public void setPlanned_delivery_date(String planned_delivery_date) {
 		this.planned_delivery_date = planned_delivery_date;
 	}
-	public int getFid() {
+	public String getFid() {
 		return fid;
 	}
-	public void setFid(int fid) {
+	public void setFid(String fid) {
 		this.fid = fid;
 	}
 	
@@ -101,7 +111,7 @@ public class Order {
 	
 	//Mark
 	public boolean validate() {
-		boolean isValid = this.fid > 0;
+		boolean isValid = this.fid!=null;
 		if(this.order_detail!=null){	
 			Iterator<OrderDetail> o = order_detail.listIterator();
 			while(o.hasNext()) {

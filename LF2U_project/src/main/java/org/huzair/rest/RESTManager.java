@@ -61,10 +61,9 @@ public class RESTManager {
 		}
 	@Path("/catalog/{gcpid}")
 	@POST
-    public Response updateCatalog(@PathParam("gcpid") int gcpid, String json_in) {
+    public Response updateCatalog(@PathParam("gcpid") String gcpid, String json_in) {
 			ProductCatalog pcatalog;
-			String gcpid_as_str = "gcpid"+gcpid;
-			pcatalog = bi.viewProductById(gcpid_as_str);
+			pcatalog = bi.viewProductById("gcpid"+gcpid);
 			if(pcatalog==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
 			try{
@@ -77,7 +76,7 @@ public class RESTManager {
 			if(!pcatalog.validate())
 				return Response.status(Response.Status.BAD_REQUEST).build();
 			
-			bi.updateProduct(gcpid_as_str, pcatalog);
+			bi.updateProduct("gcpid"+gcpid, pcatalog);
 			return Response.status(200).build(); 
 	}
 	@Path("/accounts")
@@ -88,7 +87,7 @@ public class RESTManager {
 	}
 	@Path("/accounts/{mid}")
 	@GET
-	public Response viewManagerById(@PathParam("mid") int mid){
+	public Response viewManagerById(@PathParam("mid") String mid){
 		Manager manager;
 		manager = bi.viewManagerById("mid"+mid);
 			
@@ -105,7 +104,7 @@ public class RESTManager {
 	}
 	@Path("reports")
 	@GET
-    public Response viewReportType(@PathParam("fid") int fid) {
+    public Response viewReportType(@PathParam("fid") String fid) {
 			String sjson = gson.toJson(bi.allReportTypes());
 			return Response.ok(sjson).build(); 
 	}

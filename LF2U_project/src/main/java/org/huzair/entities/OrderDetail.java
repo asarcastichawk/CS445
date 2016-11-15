@@ -14,7 +14,9 @@ public class OrderDetail {
 	{
 		this.fspid = fspid;
 		this.amount = amount;
-		this.line_item_total = getLineItemTotal();
+		
+		
+		//System.out.println(line_item_total);
 	}
 	public String getAmountAsStr(){
 		amount_asStr = amount + sp.getProductUnit();
@@ -25,12 +27,19 @@ public class OrderDetail {
 		return price_asStr;
 	}
 	public double getLineItemTotal(){
-		return amount*price;
+		return line_item_total;
 	}
 	public boolean validate(){
 		if(this.fspid!=null	 && this.amount>0)
 			return true;
 		return false;
+	}
+	public String getFspid(){
+		return fspid;
+	}
+	public void setPrice(double price){
+		this.price = price;
+		this.line_item_total = Math.floor((price*amount) * 100) / 100;
 	}
 	public boolean match(String keyword) {
 		String all = fspid+" "+amount+" "+name+" "+price+" "+line_item_total;

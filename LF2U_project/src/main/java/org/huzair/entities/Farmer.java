@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Farmer {
 	
-	private int fid;
+	private String fid;
 	private FarmInfo farm_info;
 	private PersonalInfo personal_info;
 	private ArrayList<String> delivers_to;
@@ -23,14 +23,14 @@ public class Farmer {
 	public void setStore(){
 		store = new Store();
 	}
-	public int getFid() {
+	public String getFid() {
 	    return this.fid;
 	}
-	public void setFid(int fid){
+	public void setFid(String fid){
 		this.fid = fid;
 	}
-	public boolean matchesId(int fid) {
-	    return(fid == this.fid);
+	public boolean matchesId(String fid) {
+	    return(this.fid.equalsIgnoreCase(fid));
 	}
 	public ArrayList<String> getDeliversTo(){
 		return delivers_to;

@@ -21,9 +21,9 @@ public class RESTDelivery {
 
 	@Path("{oid}")
 	@POST
-    public Response cancelOrder(@PathParam("oid") int oid, String json_in) {
+    public Response cancelOrder(@PathParam("oid") String oid, String json_in) {
 		Order order;
-		order = cust_bi.viewById(oid);
+		order = cust_bi.viewById("oid"+oid);
 		if(order==null)
 			return Response.status(Response.Status.NOT_FOUND).build();
 		try{

@@ -67,7 +67,7 @@ public class FarmersTest {
 	public void testUpdateAccountAndVerify() {
 		FT_zip_set2.add("60504");
 		Farmer farmer2new = new Farmer(FT_p_info,FT_f_info,FT_zip_set2);
-		FT_Fbi.updateAccount(2,farmer2new);
+		FT_Fbi.updateAccount("fid2",farmer2new);
 		ArrayList<Farmer> farmers = FT_Fbi.viewFarmers("60504");
 		int no_farmers = farmers.size();
 		assertEquals(no_farmers,2);
@@ -75,49 +75,49 @@ public class FarmersTest {
 	
 	@Test
 	public void testUpdateNonExistingAccount() {
-		Farmer farm = FT_Fbi.viewAccount(3);
+		Farmer farm = FT_Fbi.viewAccount("fid3");
 		assertEquals(farm,null);
 	}
 	
 	@Test
 	public void testDeliveryChargeBeforeInitilization(){
-		double delivery_charge = FT_Fbi.ViewDelivery(1);
+		double delivery_charge = FT_Fbi.ViewDelivery("fid1");
 		assertEquals(delivery_charge,0,DELTA);
 	}
 	
 	@Test
 	public void testUpdateDelivery(){
-		FT_Fbi.UpdateDelivery(1,5.00);
-		double delivery_charge = FT_Fbi.ViewDelivery(1);
+		FT_Fbi.UpdateDelivery("fid1",5.00);
+		double delivery_charge = FT_Fbi.ViewDelivery("fid1");
 		assertEquals(delivery_charge,5.00,DELTA);
 	}
 	
 	@Test
 	public void testAddProductAndVerifyUsingViewProducts(){
-		FT_Fbi.addProduct(1, FT_storeProduct1);
-		FT_Fbi.addProduct(1, FT_storeProduct2);
+		FT_Fbi.addProduct("fid1", FT_storeProduct1);
+		FT_Fbi.addProduct("fid1", FT_storeProduct2);
 		ArrayList<StoreProduct> allproducts1 = new ArrayList<StoreProduct>();
-		allproducts1 = FT_Fbi.viewStore(1);
+		allproducts1 = FT_Fbi.viewStore("fid1");
 		int no_products = allproducts1.size();
 		assertEquals(no_products,2);
 	}
 	
 	@Test
 	public void viewNotNullFarmer(){
-		Farmer newFarmer = FT_Fbi.viewAccount(1);
+		Farmer newFarmer = FT_Fbi.viewAccount("fid1");
 		assertEquals(newFarmer,FT_farmer1);
 	}
 	@Test
 	public void viewNullStore(){
 		ArrayList<StoreProduct> allproducts = new ArrayList<StoreProduct>();
-		allproducts = FT_Fbi.viewStore(2);
+		allproducts = FT_Fbi.viewStore("fid2");
 		assertEquals(allproducts.size(),0);
 	}
 	@Test
 	public void modifyExistingProduct(){
 		StoreProduct spupdate = new StoreProduct("123", "" , "10-24-2016", "12-31-2016", 15, "kg", "");
-		FT_Fbi.modifyProduct(1, "fspid1", spupdate);
-		StoreProduct spnew = FT_Fbi.viewProduct(1, "fspid1");
+		FT_Fbi.modifyProduct("fid1", "fspid1", spupdate);
+		StoreProduct spnew = FT_Fbi.viewProduct("fid1", "fspid1");
 		String spNewUnit = spnew.getProductUnit();
 		String spUpdateUnit = spupdate.getProductUnit();
 		assertEquals(spNewUnit,spUpdateUnit);
@@ -125,8 +125,8 @@ public class FarmersTest {
 	@Test
 	public void modifyNullProduct(){
 		StoreProduct spupdate = new StoreProduct("123", "" , "10-24-2016", "12-31-2016", 15, "kg", "");
-		FT_Fbi.modifyProduct(5, "fspid1", spupdate);
-		StoreProduct spnew = FT_Fbi.viewProduct(1, "fspid1");
+		FT_Fbi.modifyProduct("fid5", "fspid1", spupdate);
+		StoreProduct spnew = FT_Fbi.viewProduct("fid1", "fspid1");
 		String spNewUnit = spnew.getProductUnit();
 		String spUpdateUnit = spupdate.getProductUnit();
 		assertNotSame(spNewUnit,spUpdateUnit);
@@ -134,7 +134,7 @@ public class FarmersTest {
 	@Test
 	public void viewEmptyStore(){
 		ArrayList<StoreProduct> allProducts2 = new ArrayList<StoreProduct>();
-		allProducts2 = FT_Fbi.viewStore(2);
+		allProducts2 = FT_Fbi.viewStore("fid2");
 		assertEquals(allProducts2.size(),0);
 	}
 	@Test

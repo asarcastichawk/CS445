@@ -38,20 +38,20 @@ public class RESTCustomer {
 			if(!cust.validate())
 				return Response.status(Response.Status.BAD_REQUEST).build();
 			
-			int id = bi.createAccount(cust);
+			String id = bi.createAccount(cust);
 			json.addProperty("cid", id);
 			
 			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-	        builder.path(Integer.toString(id));
+	        builder.path(id);
 	        
 	        return Response.created(builder.build()).entity(json.toString()).build();
 		}
 	
 	@Path("{id}")
 	@PUT
-    public Response updateAccount(@PathParam("id") int cid, String json_in) {
+    public Response updateAccount(@PathParam("id") String cid, String json_in) {
 			Customer cust;
-			cust = bi.viewAccount(cid);
+			cust = bi.viewAccount("cid"+cid);
 			if(cust==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
 			try{
@@ -70,9 +70,9 @@ public class RESTCustomer {
 	
 	@Path("{id}")
 	@GET
-    public Response viewAccount(@PathParam("id") int cid) {
+    public Response viewAccount(@PathParam("id") String cid) {
 			Customer cust;
-			cust = bi.viewAccount(cid);
+			cust = bi.viewAccount("cid"+cid);
 			if(cust==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
 			String sjson;
@@ -86,11 +86,11 @@ public class RESTCustomer {
 	}
 	@Path("{id}/orders")
 	@POST
-	public Response createOrder(@Context UriInfo uriInfo, @PathParam("id") int cid, String json_in) {
+	public Response createOrder(@Context UriInfo uriInfo, @PathParam("id") String cid, String json_in) {
 			
 			Customer cust;
-			int id;
-			cust = bi.viewAccount(cid);
+			String id;
+			cust = bi.viewAccount("cid"+cid);
 			if(cust==null)
 				return Response.status(Response.Status.NOT_FOUND).build();
 			Order order;
@@ -108,40 +108,40 @@ public class RESTCustomer {
 			json.addProperty("oid", id );
 			
 			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-	        builder.path(Integer.toString(id));
+	        builder.path(id);
 	        
 	        return Response.created(builder.build()).entity(json.toString()).build(); 
 		}
 	
 	@Path("{id}/orders")
 	@GET
-    public Response viewOrders(@PathParam("id") int cid) {
+    public Response viewOrders(@PathParam("id") String cid) {
 		Customer cust;
-		cust = bi.viewAccount(cid);
+		cust = bi.viewAccount("cid"+cid);
 		if(cust==null)
 			return Response.status(Response.Status.NOT_FOUND).build();
-		String sjson = gson.toJson(bi.viewAllOrders(cid));
+		String sjson = gson.toJson(bi.viewAllOrders("cid"+cid));
 		return Response.ok(sjson).build();
 			
 	}
 	
 	@Path("{cid}/orders/{oid}")
 	@GET
-    public Response viewOrderReport(@PathParam("cid") int cid,@PathParam("oid") int oid) {
+    public Response viewOrderReport(@PathParam("cid") String cid,@PathParam("oid") String oid) {
 		Customer cust;
-		cust = bi.viewAccount(cid);
+		cust = bi.viewAccount("cid"+cid);
 		if(cust==null)
 			return Response.status(Response.Status.NOT_FOUND).build();
-		String sjson = gson.toJson(bi.viewOrderReport(oid));
+		String sjson = gson.toJson(bi.viewOrderReport("oid"+oid));
 		return Response.ok(sjson).build();
 			
 	}
 	@Path("{cid}/orders/{oid}")
 	@POST
-    public Response cancelOrder(@Context UriInfo uriInfo, @PathParam("cid") int cid,@PathParam("oid") int oid, String json_in) {
+    public Response cancelOrder(@Context UriInfo uriInfo, @PathParam("cid") String cid,@PathParam("oid") String oid, String json_in) {
 		Customer cust;
 		int id;
-		cust = bi.viewAccount(cid);
+		cust = bi.viewAccount("cid"+cid);
 		if(cust==null)
 			return Response.status(Response.Status.NOT_FOUND).build();
 		Order order;
@@ -154,10 +154,10 @@ public class RESTCustomer {
 		if(!order.statusValidate())
 			return Response.status(Response.Status.BAD_REQUEST).build();
 			
-		bi.cancelOrder(cid, oid, order.getStatus());
+		bi.cancelOrder("cid"+cid, "oid"+oid, order.getStatus());
 
 		UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path(Integer.toString(oid));
+        builder.path(oid);
         
         return Response.ok(builder.build()).build();
 	}

@@ -58,17 +58,7 @@ public class StoreProduct {
 	public String getGcpid(){
 		return gcpid;
 	}
-
-	/*public void setProduct(StoreProduct s) {
-		
-		this.note = (s.getNote()==null) ?  this.note : s.getNote();
-		this.start_date = (s.getStartDate()==null) ?  this.start_date : s.getStartDate();
-		this.end_date = (s.getEndDate()==null) ?  this.end_date : s.getEndDate();
-		this.product_unit = (s.getProductUnit()==null) ?  this.product_unit : s.getProductUnit();
-		this.image = (s.getImage()==null) ?  this.image : s.getImage();
-		this.price = (s.getPrice()<0) ?  this.price : s.getPrice();
 	
-	}*/
 		public void setProduct(StoreProduct s) {
 		
 		this.note = (s.getNote()==null) ?  this.note : s.getNote();
@@ -79,9 +69,6 @@ public class StoreProduct {
 		this.price = (s.getPrice()<0) ?  this.price : s.getPrice();
 	
 	}
-		/*public String toString(){
-		return gcpid+note+start_date+end_date+price+product_unit+image;
-	}*/
 
 		public String getName() {
 			return name;
@@ -91,4 +78,3 @@ public class StoreProduct {
 			this.name = name;
 		}
 }
-

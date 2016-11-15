@@ -2,7 +2,7 @@ package org.huzair.entities;
 
 public class Customer {	
 
-	private int cid;
+	private String cid;
 	private String name;
 	private String street;
 	private String zip;
@@ -26,14 +26,14 @@ public class Customer {
 		this.email = another.email;
 	}
 
-	public int getCid() {
+	public String getCid() {
 		return this.cid;
 	}
-	public void setCid(int cid) {
+	public void setCid(String cid) {
 		this.cid = cid;
 	}
-	public boolean matchesId(int cid) {
-		return(cid == this.cid);
+	public boolean matchesId(String cid) {
+		return(this.cid.equalsIgnoreCase(cid));
 	}
 	public String getName() {
 		return name;
@@ -41,6 +41,9 @@ public class Customer {
 	
 	public String getStreet() {
 		return street;
+	}
+	public void setStreet(String street) {
+		this.street = street;
 	}
 	
 	public String getZip() {

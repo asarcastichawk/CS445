@@ -29,8 +29,8 @@ public class DeliveryTest {
 	static DeliveryBI DT_Dbi = new DeliveryManager();
 	static Customer DT_customer1;
 	static Order DT_order1;
-	static int DT_cid;
-	static int DT_oid;
+	static String DT_cid;
+	static String DT_oid;
 	static StoreProduct DT_storeProduct1;
 	static StoreProduct DT_storeProduct2;
 	static Farmer DT_farmer1;
@@ -66,13 +66,13 @@ public class DeliveryTest {
 		ArrayList<OrderDetail> od = new ArrayList<OrderDetail>();
 		od.add(od1);
 		od.add(od2);
-		DT_order1 = new Order(1,od,"note");
+		DT_order1 = new Order("fid1",od,"note");
 	}
 	
 	@Test
 	public void TestUpdateStatusExistingId() {
-		DT_Fbi.addProduct(1, DT_storeProduct1);
-		DT_Fbi.addProduct(1, DT_storeProduct2);
+		DT_Fbi.addProduct("fid1", DT_storeProduct1);
+		DT_Fbi.addProduct("fid1", DT_storeProduct2);
 		DT_cid = DT_Cbi.createAccount(DT_customer1);
 		DT_oid = DT_Cbi.createOrder(DT_cid,DT_order1);
 		String status = "delivered";
@@ -82,12 +82,12 @@ public class DeliveryTest {
 	}
 	@Test
 	public void TestUpdateStatusNonExistingId() {
-		DT_Fbi.addProduct(1, DT_storeProduct1);
-		DT_Fbi.addProduct(1, DT_storeProduct2);
+		DT_Fbi.addProduct("fid1", DT_storeProduct1);
+		DT_Fbi.addProduct("fid1", DT_storeProduct2);
 		DT_cid = DT_Cbi.createAccount(DT_customer1);
 		DT_oid = DT_Cbi.createOrder(DT_cid,DT_order1);
 		String status = "delivered";
-		DT_Dbi.UpdateStatus(5, status);
+		DT_Dbi.UpdateStatus("oid5", status);
 		Order o = DT_Cbi.viewById(DT_oid);
 		assertEquals("open",o.getStatus());
 	}

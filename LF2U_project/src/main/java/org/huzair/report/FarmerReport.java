@@ -1,27 +1,30 @@
 package org.huzair.report;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-import org.huzair.entities.Customer;
+import org.huzair.boundary_interfaces.CustomerBI;
 import org.huzair.entities.Order;
-import org.huzair.entities.OrderDetail;
+import org.huzair.use_cases.CustomerManager;
 
 public class FarmerReport {
 
-	private int frid;
-	private String name;
+	String frid;
+	String name;
+	ArrayList<FarmerReportByOId> orders;
 	
-	public FarmerReport(int fid, int frid,Order o){
-		FarmerReportType frt = new FarmerReportType();
-		this.name = frt.getName(frid);
-		Order orders = o;
-		//Customer ordered_by = c;
-		//String delivery_address = ordered_by.getStreet();
-		
-		
+	public FarmerReport(String frid, String fid){
+		orders = new ArrayList<FarmerReportByOId>();
+		CustomerBI Cbi = new CustomerManager();
+		 ArrayList<Order> allorders = Cbi.viewAllOrders();
+			Iterator<Order> oiterator = allorders.listIterator();
+	        while(oiterator.hasNext()) {
+	            Order order = oiterator.next();
+	            if(order.getFid()==fid){
+	            	FarmerReportByOId FRT = new FarmerReportByOId(order.getOid());
+	            	if(FRT!=null)
+	            		orders.add(FRT);
+	            }   
+	       }
 	}
-
-
-	}
-	
-
+}

@@ -25,8 +25,8 @@ public class CustomerTest {
 	static FarmerBI CT_Fbi = new FarmerManager();
 	static Customer CT_customer1;
 	static Order CT_order1;
-	static int CT_cid;
-	static int CT_oid;
+	static String CT_cid;
+	static String CT_oid;
 	static StoreProduct CT_storeProduct1;
 	static StoreProduct CT_storeProduct2;
 	static Farmer CT_farmer1;
@@ -46,7 +46,7 @@ public class CustomerTest {
 		ArrayList<OrderDetail> od = new ArrayList<OrderDetail>();
 		od.add(od1);
 		od.add(od2);
-		CT_order1 = new Order(1,od,"note");
+		CT_order1 = new Order("fid1",od,"note");
 		CT_cid = CT_Cbi.createAccount(CT_customer1);
 	}
 	@Ignore
@@ -55,7 +55,7 @@ public class CustomerTest {
 		CT_p_info = new PersonalInfo("Huzair", "huzair@gmail.com", "708-369-9357");
 		CT_zip_set1 = new ArrayList<String>(Arrays.asList("60504", "60446"));
 		CT_farmer1 = new Farmer(CT_p_info,CT_f_info,CT_zip_set1);
-		int id = CT_Fbi.createAccount(CT_farmer1);
+		String id = CT_Fbi.createAccount(CT_farmer1);
 		CT_storeProduct1 = new StoreProduct("123", "" , "10-24-2016", "12-31-2016", 15.0, "lb", "");
 		CT_storeProduct2 = new StoreProduct("125", "" , "10-24-2016", "12-31-2016", 15.0, "lb", "");
 		CT_Fbi.addProduct(id, CT_storeProduct1);
@@ -75,19 +75,19 @@ public class CustomerTest {
 	@Test
 	public void testUpdateAccountAndVerify() {
 		Customer CT_customer1new = new Customer("John Doe", "2200 S Grace St", "60500", "630-915-4124", "johndoe@anonymous.com");
-		int CT_cid = CT_customer1.getCid();
+		String CT_cid = CT_customer1.getCid();
 		CT_Cbi.updateAccount(CT_cid, CT_customer1new);
 		assertEquals("60500",CT_customer1.getZip());
 	}
 	@Test
 	public void testNonExistingCidUpdate() {
 		Customer CT_customer1new = new Customer("John Doe", "2200 S Grace St", "60500", "630-915-4124", "johndoe@anonymous.com");
-		CT_Cbi.updateAccount(10, CT_customer1new);
+		CT_Cbi.updateAccount("cid10", CT_customer1new);
 		assertEquals("60148",CT_customer1.getZip());
 	}
 	@Test
 	public void testNullAcount() {
-		Customer c = CT_Cbi.viewAccount(2);
+		Customer c = CT_Cbi.viewAccount("cid2");
 		assertEquals(null,c);
 	}
 	@Test
@@ -103,7 +103,7 @@ public class CustomerTest {
 	}
 	@Test
 	public void testCreateOrderWithNonExistingCustomer() {
-		CT_Cbi.createOrder(5,CT_order1);
+		CT_Cbi.createOrder("oid5",CT_order1);
 		ArrayList<Order> allOrders = CT_Cbi.viewAllOrders();
 		assertEquals(0,allOrders.size());
 	}
@@ -115,7 +115,7 @@ public class CustomerTest {
 	@Test
 	public void testOrderCancellationWrongCid() {
 		String cancel = "cancelled";
-		CT_Cbi.cancelOrder(5, CT_oid, cancel);
+		CT_Cbi.cancelOrder("oid5", CT_oid, cancel);
 		assertEquals(null,CT_Cbi.viewById(CT_oid));
 	}
 	@Test

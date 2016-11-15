@@ -11,15 +11,6 @@ public class Store {
 		return products;
 	}
 	
-	/*public StoreProduct getStoreProduct(String fspid){
-		Iterator<StoreProduct> sp = products.listIterator();
-        while(sp.hasNext()) {
-            StoreProduct s = sp.next();
-            if(s.matchesId(fspid))
-            	return s;
-        }
-		return null;
-	}*/
 	public void setStoreProducts(StoreProduct s){
 		products.add(s);
 	}

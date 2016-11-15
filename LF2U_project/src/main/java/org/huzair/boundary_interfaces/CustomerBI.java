@@ -7,15 +7,15 @@ import java.util.ArrayList;
 
 
 public interface CustomerBI {
-	int createAccount(Customer c);
-	void updateAccount(int cid,Customer c);
-	Customer viewAccount(int cid);
-	int createOrder(int cid, Order o);
-	ArrayList<Order> viewAllOrders(int cid);
-	Order viewById(int oid);
-	OrderReport viewOrderReport(int oid);
-	void cancelOrder(int cid, int oid, String status);
+	public String createAccount(Customer c);
+	public void updateAccount(String cid,Customer c);
+	public Customer viewAccount(String cid);
+	public String createOrder(String cid, Order o);
+	public ArrayList<Order> viewAllOrders(String cid);
+	public Order viewById(String oid);
+	public OrderReport viewOrderReport(String oid);
+	public void cancelOrder(String cid, String oid, String status);
 	public ArrayList<Order> viewAllOrders();
-	ArrayList<Customer> viewAllCustomers();
+	public ArrayList<Customer> viewAllCustomers();
 	
 }

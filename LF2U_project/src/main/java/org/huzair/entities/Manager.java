@@ -23,7 +23,7 @@ public class Manager {
 		}
 		
 		public boolean matchesId(String mid) {
-		    return(mid.equalsIgnoreCase(this.mid));
+		    return(this.mid.equalsIgnoreCase(mid));
 		}
 		public String getName() {
 			return name;

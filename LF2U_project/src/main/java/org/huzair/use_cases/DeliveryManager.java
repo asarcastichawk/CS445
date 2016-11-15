@@ -13,7 +13,7 @@ public class DeliveryManager implements DeliveryBI {
 	
 	//Updates delivery status
 	@Override
-	public void UpdateStatus(int oid, String status) {
+	public void UpdateStatus(String oid, String status) {
 		Order o = cm.viewById(oid);
 		if(o!=null){
 		o.setStatus(status);

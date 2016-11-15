@@ -9,7 +9,7 @@ import org.huzair.entities.OrderDetail;
 import org.huzair.use_cases.FarmerManager;
 
 public class OrderReport {
-	private int oid;
+	private String oid;
 	private String order_date;
 	private String planned_delivery_date;
 	private String actual_delivery_date = "";

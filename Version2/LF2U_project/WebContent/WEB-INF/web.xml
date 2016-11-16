@@ -20,7 +20,7 @@
 
 <servlet-mapping>
     <servlet-name>REST API</servlet-name>
-    <url-pattern>/lf2u/*</url-pattern>
+    <url-pattern>/*</url-pattern>
 </servlet-mapping>
 
 </web-app>

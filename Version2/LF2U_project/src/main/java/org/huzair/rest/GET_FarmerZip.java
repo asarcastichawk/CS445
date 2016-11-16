@@ -18,17 +18,17 @@ public class GET_FarmerZip {
 		this.name = farm.getName();
 	}
 	
-	public static ArrayList<GET_Farmer> allGetFarmers(ArrayList<Farmer> farmers){
-		ArrayList<GET_Farmer> getfarmers = new ArrayList<GET_Farmer>();
+	public static ArrayList<GET_FarmerZip> allGetFarmers(ArrayList<Farmer> farmers){
+		ArrayList<GET_FarmerZip> getfarmers = new ArrayList<GET_FarmerZip>();
 		Iterator<Farmer> f = farmers.listIterator();
         while(f.hasNext()) {
-            GET_Farmer thisfarmer = new GET_Farmer(f.next());
+            GET_FarmerZip thisfarmer = new GET_FarmerZip(f.next());
             getfarmers.add(thisfarmer);
             }
         	return getfarmers;
 	}
-	public static GET_Farmer getFarmer(Farmer farm){
-		GET_Farmer thisfarmer = new GET_Farmer(farm);
+	public static GET_FarmerZip getFarmer(Farmer farm){
+		GET_FarmerZip thisfarmer = new GET_FarmerZip(farm);
 		return thisfarmer;
 		
 	}

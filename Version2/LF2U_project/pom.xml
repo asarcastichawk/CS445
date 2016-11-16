@@ -4,9 +4,8 @@
   <artifactId>lf2u</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>lf2u</name>
   <build>
-  <sourceDirectory>src/main/java/org/huzair</sourceDirectory>
+  <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -65,4 +64,5 @@
 </dependency>
   
   </dependencies>
+  <name>lf2u</name>
 </project>

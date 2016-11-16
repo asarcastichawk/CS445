@@ -95,10 +95,10 @@ public class CustomerManager implements CustomerBI{
 		Iterator<OrderDetail> od = details.listIterator();
         while(od.hasNext()) {
             OrderDetail odetails = od.next();
-            System.out.print(odetails.getFspid());
-            odetails.setPrice(hashmap.get(odetails.getFspid()));
-            
-            System.out.print(odetails.getPrice());
+            if(odetails!=null){
+            	double price = hashmap.get(odetails.getFspid());
+            	odetails.setPrice(price);
+            }
         }
            /*A ArrayList<StoreProduct> sproducts = FBi.viewStore(order.getFid());
     		Iterator<StoreProduct> s = sproducts.listIterator();
@@ -110,9 +110,9 @@ public class CustomerManager implements CustomerBI{
                 }
             }  */
         //}
-     //   order.setProductTotal(total);
-       // order.setAllDetails(details);
-		//orders.add(order);
+        order.setProductTotal(total);
+        order.setAllDetails(details);
+		orders.add(order);
 		String oid_as_str = order.getOid();
 		return oid_as_str;
 	}

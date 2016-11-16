@@ -86,7 +86,7 @@ import com.google.gson.Gson;
 			farm = bi.viewAccount(fid);
 			if(farm==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
-			ArrayList<StoreProduct> products = bi.viewStore("fid"+fid);
+			ArrayList<StoreProduct> products = bi.viewStore(fid);
 			String sjson = gson.toJson(GET_Store.getAllStoreProducts(products));
 			return Response.ok(sjson).build();
 				
@@ -127,10 +127,11 @@ import com.google.gson.Gson;
 		@Path("{fid}/delivery_charge")
 		@GET
 	    public Response viewDelivery(@PathParam("fid") String fid) {
-				Farmer farm = bi.viewAccount("fid"+fid);
+				Farmer farm = bi.viewAccount(fid);
 				if(farm==null)
 					 return Response.status(Response.Status.NOT_FOUND).build();
 				double vdelivery = farm.getDeliveryCharge();
+				vdelivery = Math.round (vdelivery * 100.0) / 100.0; 
 				json.addProperty("delivery_charge", vdelivery);
 				return Response.ok(json.toString()).build(); 
 			}

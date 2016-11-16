@@ -98,14 +98,13 @@ public class RESTCustomer {
 			}
 			catch(Exception e){	
 				return Response.status(400).entity(gson.toJson(e)).build();
-			}
-			
+			}		
 			if(!order.validate())
-				return Response.status(Response.Status.BAD_REQUEST).build();
-			
+				return Response.status(Response.Status.BAD_REQUEST).build();			
 			id = bi.createOrder(cid, order);
-			json.addProperty("oid", id );
-			
+			if(id.equalsIgnoreCase("0"))
+				return Response.status(422).build();
+			json.addProperty("oid", id );			
 			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
 	        builder.path(id);
 	        

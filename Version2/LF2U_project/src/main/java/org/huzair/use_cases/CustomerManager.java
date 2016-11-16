@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.huzair.boundary_interfaces.CustomerBI;
 import org.huzair.boundary_interfaces.FarmerBI;
 import org.huzair.entities.Customer;
+import org.huzair.entities.Farmer;
 import org.huzair.entities.Order;
 import org.huzair.entities.OrderDetail;
 import org.huzair.entities.StoreProduct;
@@ -68,8 +69,14 @@ public class CustomerManager implements CustomerBI{
 	//Creates an order if the customer id is found and returns the order id
 	@Override
 	public String createOrder(String cid, Order o) {
-		if(getCustomerById(cid)==null)
+		Customer c = getCustomerById(cid);
+		if(c==null)
 			return null;
+		Farmer farm = FBi.viewAccount(o.getFid());
+		ArrayList<String> zipcodes = farm.getDeliversTo();
+		if(!zipcodes.contains(c.getZip()))
+			return "0";
+		
 		Order order = new Order(o);
 		order.setCid(cid);
 		order.setOid(Integer.toString(orderAtomicInteger.incrementAndGet()));

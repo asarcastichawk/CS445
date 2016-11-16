@@ -14,6 +14,9 @@ public class FarmerReport {
 	ArrayList<FarmerReportByOId> orders;
 	
 	public FarmerReport(String frid, String fid){
+		this.frid = frid;
+		FarmerReportType frt = new FarmerReportType();
+		this.name = frt.getName(frid);
 		orders = new ArrayList<FarmerReportByOId>();
 		CustomerBI Cbi = new CustomerManager();
 		 ArrayList<Order> allorders = Cbi.viewAllOrders();

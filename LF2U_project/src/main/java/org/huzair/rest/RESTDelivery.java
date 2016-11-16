@@ -23,7 +23,7 @@ public class RESTDelivery {
 	@POST
     public Response cancelOrder(@PathParam("oid") String oid, String json_in) {
 		Order order;
-		order = cust_bi.viewById("oid"+oid);
+		order = cust_bi.viewById(oid);
 		if(order==null)
 			return Response.status(Response.Status.NOT_FOUND).build();
 		try{

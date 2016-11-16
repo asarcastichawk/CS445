@@ -25,7 +25,7 @@ public class FarmerManager implements FarmerBI {
 	@Override
 	public String createAccount(Farmer f) {
 		Farmer farm = f;
-		f.setFid("fid"+atomicInteger.incrementAndGet());
+		f.setFid(Integer.toString(atomicInteger.incrementAndGet()));
 		farmers.add(farm);
 		String fid_as_str = farm.getFid();
 		farm.setStore();
@@ -102,7 +102,7 @@ public class FarmerManager implements FarmerBI {
 		Farmer farm = getFarmerById(fid);
 		Store store = farm.getStore();
 		StoreProduct s = sproducts;
-		s.setFspid("fspid"+atomicInteger_products.incrementAndGet());
+		s.setFspid(Integer.toString(atomicInteger_products.incrementAndGet()));
 		ProductCatalog pcatalog = LM.viewProductById(s.getGcpid());
 		s.setName(pcatalog.getName());
 		fspid_price.put(s.getFspid(),s.getPrice());

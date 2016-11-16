@@ -63,7 +63,7 @@ public class RESTManager {
 	@POST
     public Response updateCatalog(@PathParam("gcpid") String gcpid, String json_in) {
 			ProductCatalog pcatalog;
-			pcatalog = bi.viewProductById("gcpid"+gcpid);
+			pcatalog = bi.viewProductById(gcpid);
 			if(pcatalog==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
 			try{
@@ -76,7 +76,7 @@ public class RESTManager {
 			if(!pcatalog.validate())
 				return Response.status(Response.Status.BAD_REQUEST).build();
 			
-			bi.updateProduct("gcpid"+gcpid, pcatalog);
+			bi.updateProduct(gcpid, pcatalog);
 			return Response.status(200).build(); 
 	}
 	@Path("/accounts")
@@ -89,7 +89,7 @@ public class RESTManager {
 	@GET
 	public Response viewManagerById(@PathParam("mid") String mid){
 		Manager manager;
-		manager = bi.viewManagerById("mid"+mid);
+		manager = bi.viewManagerById(mid);
 			
 		if(manager==null)
 			 return Response.status(Response.Status.NOT_FOUND).build();

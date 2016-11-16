@@ -30,7 +30,7 @@ public class CustomerManager implements CustomerBI{
 	@Override
 	public String createAccount(Customer c) {
 		Customer cust = c;
-		cust.setCid("cid"+atomicInteger.incrementAndGet());
+		cust.setCid(Integer.toString(atomicInteger.incrementAndGet()));
 		customers.add(cust);
 		String cid_as_str = cust.getCid();
 		return cid_as_str;
@@ -68,13 +68,11 @@ public class CustomerManager implements CustomerBI{
 	//Creates an order if the customer id is found and returns the order id
 	@Override
 	public String createOrder(String cid, Order o) {
-		 System.out.print("1");
 		if(getCustomerById(cid)==null)
 			return null;
-		 System.out.print("2");
 		Order order = new Order(o);
 		order.setCid(cid);
-		order.setOid("oid"+orderAtomicInteger.incrementAndGet());
+		order.setOid(Integer.toString(orderAtomicInteger.incrementAndGet()));
 		order.setStatus("open");
 		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 0);
 		Date today = Calendar.getInstance().getTime();
@@ -88,10 +86,11 @@ public class CustomerManager implements CustomerBI{
 		
 		ArrayList<OrderDetail> details = order.getAllDetails();
 		Iterator<OrderDetail> od = details.listIterator();
-		 System.out.print("yes");
         while(od.hasNext()) {
             OrderDetail odetails = od.next();
+            System.out.print(odetails.getFspid());
             odetails.setPrice(hashmap.get(odetails.getFspid()));
+            
             System.out.print(odetails.getPrice());
         }
            /*A ArrayList<StoreProduct> sproducts = FBi.viewStore(order.getFid());

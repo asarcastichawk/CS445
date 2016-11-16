@@ -33,7 +33,7 @@ public class LF2UManager implements ManagerBI{
 		Date today = Calendar.getInstance().getTime();
 		String created_date = (dateFormat.format(today));
 		Manager manager = new Manager("Super User", "System", created_date, "123-0987-654", "superuser@example.com");
-		manager.setMid("mid0");
+		manager.setMid("0");
 		allmanagers.add(manager);
 	}
 	
@@ -49,7 +49,7 @@ public class LF2UManager implements ManagerBI{
 		if(p==null)
 			return null;
 		ProductCatalog product = new ProductCatalog(p);
-		product.setGcpid("gcpid"+productAtomicInteger.incrementAndGet());
+		product.setGcpid(Integer.toString(productAtomicInteger.incrementAndGet()));
 		allproducts.add(product);
 		String gcpid = product.getGcpid();
 		return gcpid;

@@ -21,6 +21,7 @@ import org.huzair.use_cases.CustomerManager;
 import org.huzair.use_cases.DeliveryManager;
 import org.huzair.use_cases.FarmerManager;
 import org.huzair.use_cases.LF2UManager;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -30,7 +31,7 @@ public class DeliveryTest {
 	static CustomerBI DT_Cbi = new CustomerManager();
 	static FarmerBI DT_Fbi = new FarmerManager();
 	static DeliveryBI DT_Dbi = new DeliveryManager();
-	static ManagerBI CT_Mbi = new LF2UManager();
+	static ManagerBI DT_Mbi = new LF2UManager();
 	static ProductCatalog CT_productCatalog1;
 	static ProductCatalog CT_productCatalog2;
 	static Customer DT_customer1;
@@ -62,8 +63,8 @@ public class DeliveryTest {
 		DT_zip_set1 = new ArrayList<String>(Arrays.asList("60504", "60446"));
 		DT_farmer1 = new Farmer(DT_p_info,DT_f_info,DT_zip_set1);
 		DT_Fbi.createAccount(DT_farmer1);
-		CT_Mbi.addProduct(CT_productCatalog1);
-		CT_Mbi.addProduct(CT_productCatalog2);
+		DT_Mbi.addProduct(CT_productCatalog1);
+		DT_Mbi.addProduct(CT_productCatalog2);
 		DT_storeProduct1 = new StoreProduct("1", "" , "10-24-2016", "12-31-2016", 15.0, "lb", "");
 		DT_storeProduct2 = new StoreProduct("2", "" , "10-24-2016", "12-31-2016", 15.0, "lb", "");
 		
@@ -77,6 +78,12 @@ public class DeliveryTest {
 		od.add(od1);
 		od.add(od2);
 		DT_order1 = new Order("1",od,"note");
+	}
+	@AfterClass
+	public static void tearDown(){
+		DT_Cbi.setNull();
+		DT_Fbi.setNull(); 
+		DT_Mbi.setNull();
 	}
 	
 	@Test

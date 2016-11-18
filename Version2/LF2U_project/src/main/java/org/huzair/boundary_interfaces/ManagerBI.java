@@ -13,4 +13,5 @@ public interface ManagerBI {
 	//int createManager(Manager m);
 	ProductCatalog viewProductById(String gcpid);
 	ArrayList<ManagerReportType> allReportTypes();
+	void setNull();
 }

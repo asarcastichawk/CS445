@@ -19,18 +19,18 @@ import org.huzair.report.FarmerReportType;
 
 public class FarmersTest {
 
-	static FarmerBI FT_Fbi = new FarmerManager();
-	static ManagerBI Mbi = new LF2UManager();
+	static FarmerBI farmerManager = new FarmerManager();
+	static ManagerBI lf2uManager = new LF2UManager();
 	static ProductCatalog pcatalog;
 	static ProductCatalog pcatalog2;
 	static ArrayList<String> FT_zip_set1;
 	static ArrayList<String> FT_zip_set2;
-	static Farmer FT_farmer1;
-	static Farmer FT_farmer2;
+	static Farmer farmer1;
+	static Farmer farmer2;
 	static FarmInfo FT_f_info;
 	static PersonalInfo FT_p_info; 
-	static StoreProduct FT_storeProduct1;
-	static StoreProduct FT_storeProduct2;
+	static StoreProduct storeProduct1;
+	static StoreProduct storeProduct2;
 	final double DELTA = 1e-15;
 	
 	@BeforeClass
@@ -39,26 +39,28 @@ public class FarmersTest {
 		FT_f_info = new FarmInfo("Alpaca", "1305 West Lake", "708-100-5400", "farm.com");
 		FT_p_info = new PersonalInfo("Huzair", "huzair@gmail.com", "708-369-9357");
 		FT_zip_set1 = new ArrayList<String>(Arrays.asList("60504", "60446"));
-		FT_farmer1 = new Farmer(FT_p_info,FT_f_info,FT_zip_set1);
+		farmer1 = new Farmer(FT_p_info,FT_f_info,FT_zip_set1);
 		FT_zip_set2 = new ArrayList<String>(Arrays.asList("60564", "60000"));
-		FT_farmer2 = new Farmer(FT_p_info,FT_f_info,FT_zip_set2);
-		FT_storeProduct1 = new StoreProduct("1", "" , "10-24-2016", "12-31-2016", 15, "lb", "");
-		FT_storeProduct2 = new StoreProduct("2", "" , "10-24-2016", "12-31-2016", 15, "lb", "");
+		farmer2 = new Farmer(FT_p_info,FT_f_info,FT_zip_set2);
+		storeProduct1 = new StoreProduct("1", "" , "10-24-2016", "12-31-2016", 15, "lb", "");
+		storeProduct2 = new StoreProduct("2", "" , "10-24-2016", "12-31-2016", 15, "lb", "");
 		pcatalog = new ProductCatalog("Potatoes");
 		pcatalog2 = new ProductCatalog("Tomatoes");
-		Mbi.addProduct(pcatalog);
-		Mbi.addProduct(pcatalog2);
-		FT_Fbi.createAccount(FT_farmer1);
-		FT_Fbi.createAccount(FT_farmer2);
+		lf2uManager.addProduct(pcatalog);
+		lf2uManager.addProduct(pcatalog2);
+		farmerManager.createAccount(farmer1);
+		farmerManager.createAccount(farmer2);
 		
 	}
 	@AfterClass
 	public static void tearDown(){
+		farmerManager.setNull();
+		lf2uManager.setNull();
 	}
 
 	@Test
 	public void testCreateAccountAndVerify() {
-		ArrayList<Farmer> farmers = FT_Fbi.getAllFarmers();
+		ArrayList<Farmer> farmers = farmerManager.getAllFarmers();
 		int no_farmers = farmers.size();
 		assertTrue(no_farmers!=0);
 	}
@@ -67,64 +69,64 @@ public class FarmersTest {
 	public void testUpdateAccountAndVerify() {
 		FT_zip_set2.add("60904");
 		Farmer farmer2new = new Farmer(FT_p_info,FT_f_info,FT_zip_set2);
-		FT_Fbi.updateAccount("2",farmer2new);
-		Farmer F = FT_Fbi.viewAccount("2");
+		farmerManager.updateAccount("2",farmer2new);
+		Farmer F = farmerManager.viewAccount("2");
 		ArrayList<String> zipcodes = F.getDeliversTo();
 		assertTrue(zipcodes.contains("60904"));
 	}
 	
 	@Test
 	public void testUpdateNonExistingAccount() {
-		Farmer farm = FT_Fbi.viewAccount("100");
+		Farmer farm = farmerManager.viewAccount("100");
 		assertEquals(farm,null);
 	}
 	
 	@Test
 	public void testDeliveryChargeBeforeInitilization(){
-		double delivery_charge = FT_Fbi.ViewDelivery("1");
+		double delivery_charge = farmerManager.ViewDelivery("1");
 		assertEquals(delivery_charge,0,DELTA);
 	}
 	
 	@Test
 	public void testUpdateDelivery(){
-		FT_Fbi.UpdateDelivery("1",5.00);
-		double delivery_charge = FT_Fbi.ViewDelivery("1");
+		farmerManager.UpdateDelivery("1",5.00);
+		double delivery_charge = farmerManager.ViewDelivery("1");
 		assertEquals(delivery_charge,5.00,DELTA);
 	}
 	
 	@Test
 	public void testAddProductAndVerifyUsingViewProducts(){
-		FT_Fbi.addProduct("1", FT_storeProduct1);
+		farmerManager.addProduct("1", storeProduct1);
 		ArrayList<StoreProduct> allproducts1 = new ArrayList<StoreProduct>();
-		allproducts1 = FT_Fbi.viewStore("1");
-		assertTrue(allproducts1.contains(FT_storeProduct1));
+		allproducts1 = farmerManager.viewStore("1");
+		assertTrue(allproducts1.contains(storeProduct1));
 	}
 	
 	@Test
 	public void viewNotNullFarmer(){
-		Farmer newFarmer = FT_Fbi.viewAccount(FT_farmer1.getFid());
-		assertEquals(newFarmer,FT_farmer1);
+		Farmer newFarmer = farmerManager.viewAccount(farmer1.getFid());
+		assertEquals(newFarmer.getFid(),farmer1.getFid());
 	}
 	@Test
 	public void viewNullStore(){
 		ArrayList<StoreProduct> allproducts = new ArrayList<StoreProduct>();
-		allproducts = FT_Fbi.viewStore("2");
+		allproducts = farmerManager.viewStore("2");
 		assertEquals(allproducts.size(),0);
 	}
 	@Test
 	public void modifyExistingProduct(){
 		StoreProduct spupdate = new StoreProduct("123", "" , "10-24-2016", "12-31-2016", 15, "kg", "");
-		FT_Fbi.modifyProduct("1", "1", spupdate);
-		StoreProduct spnew = FT_Fbi.viewProduct("1", "1");
+		farmerManager.modifyProduct("1", "1", spupdate);
+		StoreProduct spnew = farmerManager.viewProduct("1", "1");
 		String spNewUnit = spnew.getProductUnit();
 		String spUpdateUnit = spupdate.getProductUnit();
 		assertEquals(spNewUnit,spUpdateUnit);
 	}
 	@Test
 	public void modifyNullProduct(){
-		StoreProduct spupdate = new StoreProduct("123", "" , "10-24-2016", "12-31-2016", 15, "kg", "");
-		FT_Fbi.modifyProduct("5", "1", spupdate);
-		StoreProduct spnew = FT_Fbi.viewProduct("1", "1");
+		StoreProduct spupdate = new StoreProduct("1", "" , "10-24-2016", "12-31-2016", 15, "kg", "");
+		farmerManager.modifyProduct("1", "100", spupdate);
+		StoreProduct spnew = farmerManager.viewProduct("1", "1");
 		String spNewUnit = spnew.getProductUnit();
 		String spUpdateUnit = spupdate.getProductUnit();
 		assertTrue(spNewUnit!=spUpdateUnit);
@@ -132,15 +134,15 @@ public class FarmersTest {
 	@Test
 	public void viewEmptyStore(){
 		ArrayList<StoreProduct> allProducts2 = new ArrayList<StoreProduct>();
-		allProducts2 = FT_Fbi.viewStore("2");
+		allProducts2 = farmerManager.viewStore("2");
 		assertEquals(allProducts2.size(),0);
 	}
 	@Test
 	public void testViewAllFarmersShouldBeF1AndF2(){
 		ArrayList<Farmer> allFarmers = new ArrayList<Farmer>();
-		allFarmers.add(FT_farmer1);
-		allFarmers.add(FT_farmer2);
-		ArrayList<Farmer> getAllFarmers = FT_Fbi.getAllFarmers();
+		allFarmers.add(farmer1);
+		allFarmers.add(farmer2);
+		ArrayList<Farmer> getAllFarmers = farmerManager.getAllFarmers();
 		assertTrue(getAllFarmers.containsAll(allFarmers));
 	}
 	
@@ -149,7 +151,7 @@ public class FarmersTest {
 	public void viewAllReports(){
 		FarmerReportType frid = new FarmerReportType();
 		ArrayList<FarmerReportType> farmerReports = frid.getAllTypes();
-		ArrayList<FarmerReportType> farmerReportsManager = FT_Fbi.allReportTypes();
+		ArrayList<FarmerReportType> farmerReportsManager = farmerManager.allReportTypes();
 		assertEquals(farmerReports.size(),farmerReportsManager.size());
 	}
 }

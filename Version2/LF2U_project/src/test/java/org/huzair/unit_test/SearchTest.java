@@ -46,6 +46,8 @@ public class SearchTest {
 	
 	@After
 	public void tearDown() {
+		FBi.setNull();
+		CBi.setNull();
 	}
 	
 	@Ignore
@@ -152,6 +154,4 @@ public class SearchTest {
 		ArrayList<?> list  = search.determineTopic();
 		//assertTrue(list.size()>=1);
 	}
-	
-
 }

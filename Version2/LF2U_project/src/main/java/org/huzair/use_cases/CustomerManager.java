@@ -18,8 +18,8 @@ import org.huzair.report.OrderReport;
 
 public class CustomerManager implements CustomerBI{
 
-	private static AtomicInteger atomicInteger = new AtomicInteger();
-	private static AtomicInteger orderAtomicInteger = new AtomicInteger();
+	private AtomicInteger atomicInteger = new AtomicInteger();
+	private AtomicInteger orderAtomicInteger = new AtomicInteger();
 	private static ArrayList<Customer> customers = new ArrayList<Customer>();
 	private static ArrayList<Order> orders = new ArrayList<Order>();
 	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -70,6 +70,8 @@ public class CustomerManager implements CustomerBI{
 		if(c==null)
 			return null;
 		Farmer farm = FBi.viewAccount(o.getFid());
+		if(farm==null)
+			return "0";
 		ArrayList<String> zipcodes = farm.getDeliversTo();
 		if(!zipcodes.contains(c.getZip()))
 			return "0";
@@ -170,6 +172,11 @@ public class CustomerManager implements CustomerBI{
 	//View all customers
 	public ArrayList<Customer> viewAllCustomers(){
 		return customers;
+	}
+	@Override
+	public void setNull(){
+		customers.clear();
+		orders.clear();
 	}
 	
 }

@@ -24,7 +24,7 @@ public class ManagerTest {
 	}
 	@AfterClass
 	public static void tearDown(){
-		
+		MT_Mbi.setNull();
 	}
 
 	@Test

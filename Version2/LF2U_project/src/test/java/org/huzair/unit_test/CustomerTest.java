@@ -74,7 +74,9 @@ public class CustomerTest {
 	
 	@AfterClass
 	public static void tearDown(){
-		
+		CT_Cbi.setNull();
+		CT_Fbi.setNull();
+		CT_Mbi.setNull();
 	}
 	
 	@Test

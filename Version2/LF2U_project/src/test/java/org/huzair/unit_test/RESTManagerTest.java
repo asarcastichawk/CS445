@@ -3,7 +3,6 @@ import static org.junit.Assert.*;
 import javax.ws.rs.core.Response;
 import org.huzair.entities.ProductCatalog;
 import org.huzair.rest.RESTManager;
-import static com.jayway.restassured.RestAssured.given;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,37 +56,4 @@ public class RESTManagerTest{
 		Response r = rf.viewManagerById("50");
 		assertEquals(404,r.getStatus());
 	}
-	
-/*	@Test
-    public void RESTmanagersAccountsTest() {
-		given().
-        expect().
-        statusCode(200).
-        when().
-        get("/lf2u/managers/accounts/0");
-	}
-	@Test
-    public void RESTmanagerAccountsTest() {
-		given().
-        expect().
-        statusCode(200).
-        when().
-        get("/lf2u/managers/accounts");
-	}
-	@Test
-    public void RESTmanagersReportsTest() {
-		given().
-        expect().
-        statusCode(200).
-        when().
-        get("/lf2u/managers/reports");
-	}
-	@Test
-    public void RESTviewCatalog() {
-		given().
-        expect().
-        statusCode(200).
-        when().
-        get("/lf2u/managers/catalog");
-	}P*/
 }

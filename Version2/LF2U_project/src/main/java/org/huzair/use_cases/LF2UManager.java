@@ -15,7 +15,7 @@ import org.huzair.boundary_interfaces.ManagerBI;
 
 public class LF2UManager implements ManagerBI{
 
-	private static AtomicInteger productAtomicInteger = new AtomicInteger();
+	private AtomicInteger productAtomicInteger = new AtomicInteger();
 	//private static AtomicInteger managerAtomicInteger = new AtomicInteger();
 	private static AtomicBoolean isCreated = new AtomicBoolean();
 	private static ArrayList<ProductCatalog> allproducts = new ArrayList<ProductCatalog>();
@@ -109,5 +109,11 @@ public class LF2UManager implements ManagerBI{
 		ManagerReportType reports = new ManagerReportType();
 		ArrayList<ManagerReportType> allReportTypes = reports.getAllTypes();
 		return allReportTypes;
+	}
+	@Override
+	public void setNull(){
+		allproducts.clear();
+		allmanagers.clear();
+		createSystem();
 	}
 }

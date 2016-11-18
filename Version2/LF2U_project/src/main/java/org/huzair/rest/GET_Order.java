@@ -2,10 +2,7 @@ package org.huzair.rest;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.huzair.entities.Farmer;
 import org.huzair.entities.Order;
-import org.huzair.entities.PersonalInfo;
 
 public class GET_Order {
 private String oid;

@@ -1,7 +1,6 @@
 package org.huzair.entities;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Store {
 	

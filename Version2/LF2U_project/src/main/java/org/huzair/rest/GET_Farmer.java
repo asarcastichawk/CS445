@@ -35,8 +35,5 @@ public class GET_Farmer {
 		return thisfarmer;
 		
 	}
-		
-	
-	
 
 }

@@ -14,9 +14,6 @@ public class OrderDetail {
 	{
 		this.fspid = fspid;
 		this.amount = amount;
-		
-		
-		//System.out.println(line_item_total);
 	}
 	public String getAmountAsStr(){
 		amount_asStr = amount + sp.getProductUnit();

@@ -55,7 +55,6 @@ public class Farmer {
 		return delivery_charge;
 	}
 	
-	//Mark
 	public boolean validate(){
 		if(farm_info!=null && personal_info!=null)
 			if(farm_info.validate() && personal_info.validate() && delivers_to!=null)

@@ -66,13 +66,11 @@ public class Customer {
 		email = c.getEmail();
 }
 
-	//Mark
 	public boolean validate() {
 		if(name!=null && street!= null && zip!=null && phone!=null && email!=null)
 			return true;
 		return false;
 	}
-	
 	
 	public boolean match(String keyword) {
 		String all = name+" "+street+" "+zip+" "+phone+" "+email;

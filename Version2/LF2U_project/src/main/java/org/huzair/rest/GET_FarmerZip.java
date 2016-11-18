@@ -33,8 +33,5 @@ public class GET_FarmerZip {
 		return thisfarmer;
 		
 	}
-		
-	
-	
 
 }

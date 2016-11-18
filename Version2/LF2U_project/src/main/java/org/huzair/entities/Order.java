@@ -53,7 +53,7 @@ public class Order {
 		return oid;
 	}
 	public boolean matchesId(String oid) {
-	    return(oid == this.oid);
+	    return(this.oid.equalsIgnoreCase(oid));
 	}
 	public String getStatus() {
 		return status;
@@ -84,6 +84,8 @@ public class Order {
 	}
 	public void setOrder_date(String order_date) {
 		this.order_date = order_date;
+		int store = Integer.parseInt(order_date) + 1;
+		this.planned_delivery_date = Integer.toString(store);
 	}
 	public String getPlanned_delivery_date() {
 		return planned_delivery_date;
@@ -109,7 +111,6 @@ public class Order {
 		return products_total;
 	}
 	
-	//Mark
 	public boolean validate() {
 		boolean isValid = this.fid!=null;
 		if(this.order_detail!=null){	

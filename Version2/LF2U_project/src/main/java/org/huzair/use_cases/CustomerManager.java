@@ -14,7 +14,6 @@ import org.huzair.entities.Customer;
 import org.huzair.entities.Farmer;
 import org.huzair.entities.Order;
 import org.huzair.entities.OrderDetail;
-import org.huzair.entities.StoreProduct;
 import org.huzair.report.OrderReport;
 
 public class CustomerManager implements CustomerBI{
@@ -61,9 +60,7 @@ public class CustomerManager implements CustomerBI{
 	@Override
 	public Customer viewAccount(String cid) {
 		Customer customer = getCustomerById(cid);
-		///if(customer!= null)
 			return customer;
-		//return null;
 	}
 
 	//Creates an order if the customer id is found and returns the order id
@@ -84,19 +81,19 @@ public class CustomerManager implements CustomerBI{
 		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 0);
 		Date today = Calendar.getInstance().getTime();
 		order.setOrder_date(dateFormat.format(today));
-		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 1);
-		Date tom = Calendar.getInstance().getTime();
-		order.setPlanned_delivery_date(dateFormat.format(tom));
 		double total = 0;
-		
 		Map<String,Double> hashmap = FBi.getHashmap();
 		
 		ArrayList<OrderDetail> details = order.getAllDetails();
 		Iterator<OrderDetail> od = details.listIterator();
         while(od.hasNext()) {
             OrderDetail odetails = od.next();
+            double price = 0;
             if(odetails!=null){
-            	double price = hashmap.get(odetails.getFspid());
+            	try{
+            	price = hashmap.get(odetails.getFspid());
+            	}
+            	catch(Exception e){}
             	odetails.setPrice(price);
             }
         }
@@ -174,6 +171,5 @@ public class CustomerManager implements CustomerBI{
 	public ArrayList<Customer> viewAllCustomers(){
 		return customers;
 	}
-	
 	
 }

@@ -15,7 +15,6 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import org.huzair.boundary_interfaces.CustomerBI;
 import org.huzair.entities.Customer;
-import org.huzair.entities.Farmer;
 import org.huzair.entities.Order;
 import org.huzair.use_cases.CustomerManager;
 import com.google.gson.Gson;
@@ -132,7 +131,8 @@ public class RESTCustomer {
     public Response viewOrderReport(@PathParam("cid") String cid,@PathParam("oid") String oid) {
 		Customer cust;
 		cust = bi.viewAccount(cid);
-		if(cust==null)
+		Order o = bi.viewById(oid);
+		if(cust==null||o==null)
 			return Response.status(Response.Status.NOT_FOUND).build();
 		String sjson = gson.toJson(bi.viewOrderReport(oid));
 		return Response.ok(sjson).build();

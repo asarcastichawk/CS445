@@ -24,20 +24,20 @@ import org.huzair.entities.StoreProduct;
 
 public class CustomerTest {
 
-	static CustomerBI CT_Cbi = new CustomerManager();
-	static FarmerBI CT_Fbi = new FarmerManager();
-	static ManagerBI CT_Mbi = new LF2UManager();
-	static ProductCatalog CT_productCatalog1;
-	static ProductCatalog CT_productCatalog2;
+	private static CustomerBI CT_Cbi = new CustomerManager();
+	private static FarmerBI CT_Fbi = new FarmerManager();
+	private static ManagerBI CT_Mbi = new LF2UManager();
+	private static ProductCatalog CT_productCatalog1;
+	private static ProductCatalog CT_productCatalog2;
 	static Customer CT_customer1;
 	static Order CT_order1;
 	static String CT_cid;
 	static String CT_oid;
 	static StoreProduct CT_storeProduct1;
 	static StoreProduct CT_storeProduct2;
-	static Farmer CT_farmer1;
-	static FarmInfo CT_f_info;
-	static PersonalInfo CT_p_info; 
+	private static Farmer CT_farmer1;
+	private static FarmInfo CT_f_info;
+	private static PersonalInfo CT_p_info; 
 	static ArrayList<String> CT_zip_set1;
 	static ArrayList<OrderDetail> CT_odlist;
 	final double DELTA = 1e-15;

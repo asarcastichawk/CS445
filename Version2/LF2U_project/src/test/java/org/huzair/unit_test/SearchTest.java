@@ -146,7 +146,6 @@ public class SearchTest {
 	public void searchForOrderWithSpecificKeyword() {
 		String cid = CBi.createAccount(c1);
 		CBi.createOrder(cid, o1);
-		//OrderReport ord = new OrderReport(o1);
 		String topic = "Order";
 		String keyword = Integer.toString(1);
 		search = new Search(topic,keyword);

@@ -58,7 +58,7 @@ public class FarmersTest {
 
 	@Test
 	public void testCreateAccountAndVerify() {
-		ArrayList<Farmer> farmers = FT_Fbi.viewFarmers("60000");
+		ArrayList<Farmer> farmers = FT_Fbi.getAllFarmers();
 		int no_farmers = farmers.size();
 		assertTrue(no_farmers!=0);
 	}

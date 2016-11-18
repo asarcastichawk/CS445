@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import org.huzair.entities.FarmInfo;
 import org.huzair.entities.Farmer;
+import org.huzair.entities.PersonalInfo;
 
 
 public class GET_FarmerZip {
@@ -14,7 +15,7 @@ public class GET_FarmerZip {
 	
 	public GET_FarmerZip(Farmer f){
 		this.fid = f.getFid();
-		FarmInfo farm = f.getFarmInfo();
+		PersonalInfo farm = f.getPersonalInfo();
 		this.name = farm.getName();
 	}
 	

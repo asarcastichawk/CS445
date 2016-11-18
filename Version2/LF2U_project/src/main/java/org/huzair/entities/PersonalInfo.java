@@ -21,4 +21,7 @@ public boolean match(String keyword){
 	all = all.toLowerCase();
 	return all.matches(".*\\b" + keyword + "\\b.*");
 }
+public String getName() {
+	return name;
+}
 }

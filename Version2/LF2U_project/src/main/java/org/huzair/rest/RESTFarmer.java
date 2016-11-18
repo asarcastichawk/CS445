@@ -119,7 +119,7 @@ import com.google.gson.Gson;
 			else if(bi.viewStore(fid)==null)
 				 return Response.status(Response.Status.NOT_FOUND).build();
 			String json;
-			try{ json = gson.toJson(bi.viewProduct(fid, "fspid"+fspid)); }
+			try{ json = gson.toJson(bi.viewProduct(fid, fspid)); }
 			catch(Exception e){ return Response.status(400).entity(gson.toJson(e)).build(); }
 			return Response.ok(json.toString()).build(); 
 		}

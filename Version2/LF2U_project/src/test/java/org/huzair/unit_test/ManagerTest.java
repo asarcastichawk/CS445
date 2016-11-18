@@ -10,7 +10,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 public class ManagerTest {
 
 	static LF2UManager MT_Mbi = new LF2UManager();
@@ -78,5 +77,4 @@ public class ManagerTest {
 		ProductCatalog p3 = MT_Mbi.viewProductById("1");
 		assertTrue(p2.equals(p3));
 	}
-	
 }

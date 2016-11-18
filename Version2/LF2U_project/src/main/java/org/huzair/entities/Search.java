@@ -14,7 +14,7 @@ public class Search {
 	public Search(String topic,String keyword){
 		this.topic = topic;
 		this.keyword = keyword;
-		this.keyword = keyword.toLowerCase();
+		this.keyword = this.keyword.toLowerCase();
 	}
 	
 	public <T> ArrayList<T> determineTopic() {

@@ -1,4 +1,3 @@
-org\huzair\entities\Report.class
 org\huzair\entities\Search.class
 org\huzair\entities\OrderDetail.class
 org\huzair\rest\RESTFarmer.class

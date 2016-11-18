@@ -103,7 +103,6 @@ public class LF2UManager implements ManagerBI{
 		return null;
 	}
 	
-	
 	//View all manager report types
 	@Override
 	public ArrayList<ManagerReportType> allReportTypes() {
@@ -111,5 +110,4 @@ public class LF2UManager implements ManagerBI{
 		ArrayList<ManagerReportType> allReportTypes = reports.getAllTypes();
 		return allReportTypes;
 	}
-	
 }

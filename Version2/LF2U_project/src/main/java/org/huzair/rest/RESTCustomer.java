@@ -1,5 +1,7 @@
 package org.huzair.rest;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -13,6 +15,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import org.huzair.boundary_interfaces.CustomerBI;
 import org.huzair.entities.Customer;
+import org.huzair.entities.Farmer;
 import org.huzair.entities.Order;
 import org.huzair.use_cases.CustomerManager;
 import com.google.gson.Gson;
@@ -118,7 +121,8 @@ public class RESTCustomer {
 		cust = bi.viewAccount(cid);
 		if(cust==null)
 			return Response.status(Response.Status.NOT_FOUND).build();
-		String sjson = gson.toJson(bi.viewAllOrders(cid));
+		ArrayList<Order> allorders = bi.viewAllOrders(cid);
+		String sjson = gson.toJson(GET_Order.allGetOrders(allorders));
 		return Response.ok(sjson).build();
 			
 	}
@@ -138,7 +142,6 @@ public class RESTCustomer {
 	@POST
     public Response cancelOrder(@Context UriInfo uriInfo, @PathParam("cid") String cid,@PathParam("oid") String oid, String json_in) {
 		Customer cust;
-		int id;
 		cust = bi.viewAccount(cid);
 		if(cust==null)
 			return Response.status(Response.Status.NOT_FOUND).build();

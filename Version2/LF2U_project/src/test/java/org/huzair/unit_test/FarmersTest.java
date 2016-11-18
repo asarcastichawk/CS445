@@ -127,7 +127,7 @@ public class FarmersTest {
 		StoreProduct spnew = FT_Fbi.viewProduct("1", "1");
 		String spNewUnit = spnew.getProductUnit();
 		String spUpdateUnit = spupdate.getProductUnit();
-		assertNotSame(spNewUnit,spUpdateUnit);
+		assertTrue(spNewUnit!=spUpdateUnit);
 	}
 	@Test
 	public void viewEmptyStore(){

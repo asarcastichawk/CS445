@@ -15,6 +15,7 @@ org\huzair\boundary_interfaces\ManagerBI.class
 org\huzair\entities\ProductCatalog.class
 org\huzair\entities\Manager.class
 org\huzair\report\ManagerReportType.class
+org\huzair\rest\GET_Order.class
 org\huzair\report\FarmerReportType.class
 org\huzair\entities\Store.class
 org\huzair\rest\GET_FarmerZip.class

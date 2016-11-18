@@ -14,8 +14,8 @@ import org.huzair.report.FarmerReportType;
 
 public class FarmerManager implements FarmerBI {
 	
-	private  AtomicInteger atomicInteger = new AtomicInteger();
-	private AtomicInteger atomicInteger_products = new AtomicInteger();
+	private static AtomicInteger atomicInteger = new AtomicInteger();
+	private static AtomicInteger atomicInteger_products = new AtomicInteger();
 	private static ArrayList<Farmer> farmers = new ArrayList<Farmer>();
 	private static Map<String,Double> fspid_price = new HashMap<String,Double>();
 	private LF2UManager LM = new LF2UManager();
@@ -167,5 +167,7 @@ public class FarmerManager implements FarmerBI {
 	public void setNull(){
 		farmers.clear();
 		fspid_price.clear();
+		atomicInteger.set(0);
+		atomicInteger_products.set(0);
 	}
 }

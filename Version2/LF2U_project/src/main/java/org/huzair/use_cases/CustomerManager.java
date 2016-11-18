@@ -18,8 +18,8 @@ import org.huzair.report.OrderReport;
 
 public class CustomerManager implements CustomerBI{
 
-	private AtomicInteger atomicInteger = new AtomicInteger();
-	private AtomicInteger orderAtomicInteger = new AtomicInteger();
+	private static AtomicInteger atomicInteger = new AtomicInteger();
+	private static AtomicInteger orderAtomicInteger = new AtomicInteger();
 	private static ArrayList<Customer> customers = new ArrayList<Customer>();
 	private static ArrayList<Order> orders = new ArrayList<Order>();
 	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -177,6 +177,8 @@ public class CustomerManager implements CustomerBI{
 	public void setNull(){
 		customers.clear();
 		orders.clear();
+		atomicInteger.set(0);
+		orderAtomicInteger.set(0);
 	}
 	
 }

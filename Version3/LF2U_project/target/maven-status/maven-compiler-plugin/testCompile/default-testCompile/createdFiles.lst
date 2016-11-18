@@ -1,0 +1,7 @@
+org\huzair\unit_test\ValidationTest.class
+org\huzair\unit_test\RESTManagerTest.class
+org\huzair\unit_test\ManagerTest.class
+org\huzair\unit_test\DeliveryTest.class
+org\huzair\unit_test\CustomerTest.class
+org\huzair\unit_test\SearchTest.class
+org\huzair\unit_test\FarmersTest.class

@@ -18,5 +18,4 @@ public interface CustomerBI {
 	public ArrayList<Order> viewAllOrders();
 	public ArrayList<Customer> viewAllCustomers();
 	void setNull();
-	
 }

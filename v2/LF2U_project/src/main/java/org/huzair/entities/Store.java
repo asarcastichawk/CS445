@@ -9,7 +9,6 @@ public class Store {
 	public ArrayList<StoreProduct> getAllStoreProducts(){
 		return products;
 	}
-	
 	public void setStoreProducts(StoreProduct s){
 		products.add(s);
 	}

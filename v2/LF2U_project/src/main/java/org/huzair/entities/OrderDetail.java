@@ -16,14 +16,6 @@ public class OrderDetail {
 		this.amount = amount;
 		
 	}
-	public String getAmountAsStr(){
-		amount_asStr = amount + sp.getProductUnit();
-		return amount_asStr;
-	}
-	public String getPriceAsStr(){
-		price_asStr = price + " per " + sp.getPrice();
-		return price_asStr;
-	}
 	public double getLineItemTotal(){
 		return line_item_total;
 	}

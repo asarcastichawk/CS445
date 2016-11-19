@@ -17,6 +17,8 @@ public GET_Order(Order o){
 	this.order_date = o.getOrder_date();
 	this.planned_delivery_date = o.getPlanned_delivery_date();
 	this.actual_delivery_date = o.getActualDate();
+	if(actual_delivery_date==null)
+		this.actual_delivery_date = "";
 	this.status = o.getStatus();
 	this.fid = o.getFid();
 }

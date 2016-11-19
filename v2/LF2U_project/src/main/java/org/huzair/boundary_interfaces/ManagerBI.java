@@ -10,7 +10,6 @@ public interface ManagerBI {
 	void updateProduct (String gcpid, ProductCatalog p);
 	ArrayList<Manager> viewAllManagers();
 	Manager viewManagerById(String mid);
-	//int createManager(Manager m);
 	ProductCatalog viewProductById(String gcpid);
 	ArrayList<ManagerReportType> allReportTypes();
 	void setNull();

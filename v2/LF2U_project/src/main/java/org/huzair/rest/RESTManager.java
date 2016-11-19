@@ -10,6 +10,8 @@ import javax.ws.rs.core.Response;
 import org.huzair.boundary_interfaces.ManagerBI;
 import org.huzair.entities.Manager;
 import org.huzair.entities.ProductCatalog;
+import org.huzair.report.FarmerReport;
+import org.huzair.report.ManagerReport;
 import org.huzair.use_cases.LF2UManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -94,9 +96,19 @@ public class RESTManager {
 	}
 	@Path("reports")
 	@GET
-    public Response viewReportType(@PathParam("fid") String fid) {
+    public Response viewAllReportTypes(@PathParam("fid") String fid) {
 			String sjson = gson.toJson(bi.allReportTypes());
 			return Response.ok(sjson).build(); 
+	}
+	@Path("reports/{mrid}")
+	@GET
+    public Response viewReportType(@PathParam("mrid") String mrid) {
+		int mrid_int = Integer.parseInt(mrid);
+		if(mrid_int>5&&mrid_int<1)
+			 return Response.status(Response.Status.NOT_FOUND).build();
+		ManagerReport orderByMrid = new ManagerReport(mrid);
+		String sjson = gson.toJson(orderByMrid);
+		return Response.ok(sjson).build();
 	}
 
 }

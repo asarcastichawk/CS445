@@ -43,9 +43,6 @@ public class FarmerReportByOId {
 		this.delivery_address = ordered_by.getStreet();
 		ordered_by.setStreet(null);
 		this.note = order.getDelivery_note();
-		this.order_detail = order.getAllDetails();
-		
-		
-		
+		this.order_detail = order.getAllDetails();	
 	}
 }

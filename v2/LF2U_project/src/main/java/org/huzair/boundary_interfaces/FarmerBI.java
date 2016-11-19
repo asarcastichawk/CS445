@@ -20,7 +20,5 @@ public interface FarmerBI {
 	ArrayList<Farmer> getAllFarmers();
 	Map<String,Double> getHashmap();
 	void setNull();
-	Farmer getFarmerZip(Farmer farm, String zip);
-	
-	
+	Farmer getFarmerZip(Farmer farm, String zip);	
 }

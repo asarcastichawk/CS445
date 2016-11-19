@@ -12,7 +12,6 @@ public class ProductCatalog {
 		this.name = p.getName();
 	}
 	
-	
 	public String getName(){
 		return name;
 	}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FarmerReportType.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lf2u</a> &gt; <a href="index.source.html" class="el_package">org.huzair.report</a> &gt; <span class="el_source">FarmerReportType.java</span></div><h1>FarmerReportType.java</h1><pre class="source lang-java linenums">package org.huzair.report;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class FarmerReportType {
+
+	private String frid;
+	private String name;
+	private ArrayList&lt;FarmerReportType&gt; alltypes;
+	
+<span class="fc" id="L12">	public FarmerReportType(String frid, String name){</span>
+		
+<span class="fc" id="L14">		this.frid = frid;</span>
+<span class="fc" id="L15">		this.name = name;</span>
+<span class="fc" id="L16">	}</span>
+<span class="fc" id="L17">	public FarmerReportType(){</span>
+<span class="fc" id="L18">		allReportTypes();</span>
+<span class="fc" id="L19">	}</span>
+	public ArrayList&lt;FarmerReportType&gt; getAllTypes()
+	{
+<span class="fc" id="L22">		return alltypes;</span>
+	}
+	private void allReportTypes(){
+<span class="fc" id="L25">		FarmerReportType R1 = new FarmerReportType(&quot;1&quot;,&quot;Orders to deliver today&quot;);</span>
+<span class="fc" id="L26">		FarmerReportType R2 = new FarmerReportType(&quot;2&quot;,&quot;Orders to deliver tomorrow&quot;);</span>
+<span class="fc" id="L27">		FarmerReportType R3 = new FarmerReportType(&quot;3&quot;,&quot;Revenue report&quot;);</span>
+<span class="fc" id="L28">		FarmerReportType R4 = new FarmerReportType(&quot;4&quot;,&quot;Orders delivery report&quot;);</span>
+<span class="fc" id="L29">		alltypes = new ArrayList&lt;FarmerReportType&gt;();</span>
+<span class="fc" id="L30">		alltypes.add(R1);</span>
+<span class="fc" id="L31">		alltypes.add(R2);</span>
+<span class="fc" id="L32">		alltypes.add(R3);</span>
+<span class="fc" id="L33">		alltypes.add(R4);</span>
+<span class="fc" id="L34">	}</span>
+	public String getName(String frid) {
+<span class="nc" id="L36">		Iterator&lt;FarmerReportType&gt; frt = alltypes.listIterator();</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        while(frt.hasNext()) {</span>
+<span class="nc" id="L38">        	FarmerReportType report = frt.next();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if(report.frid.equalsIgnoreCase(frid))</span>
+<span class="nc" id="L40">            	return report.name;</span>
+<span class="nc" id="L41">        }</span>
+<span class="nc" id="L42">		return null;</span>
+	}
+	}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

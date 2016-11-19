@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GET_Store.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lf2u</a> &gt; <a href="index.source.html" class="el_package">org.huzair.rest</a> &gt; <span class="el_source">GET_Store.java</span></div><h1>GET_Store.java</h1><pre class="source lang-java linenums">package org.huzair.rest;
+import java.util.ArrayList;
+import java.util.Iterator;
+import org.huzair.entities.Store;
+import org.huzair.entities.StoreProduct;
+
+public class GET_Store {
+	
+<span class="nc" id="L9">	private ArrayList&lt;StoreProduct&gt; products = new ArrayList&lt;StoreProduct&gt;();</span>
+
+<span class="nc" id="L11">		public GET_Store(Store store){</span>
+<span class="nc" id="L12">			this.products.addAll(store.getAllStoreProducts());</span>
+<span class="nc" id="L13">		}</span>
+		public static ArrayList&lt;StoreProduct&gt; getAllStoreProducts(ArrayList&lt;StoreProduct&gt; getProduct){
+<span class="nc" id="L15">			ArrayList&lt;StoreProduct&gt; returnProduct = new ArrayList&lt;StoreProduct&gt;();</span>
+<span class="nc" id="L16">			Iterator&lt;StoreProduct&gt; s = getProduct.listIterator();</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">	        while(s.hasNext()) {</span>
+<span class="nc" id="L18">	        	StoreProduct sp = s.next();</span>
+<span class="nc" id="L19">	        	sp.setGcpid(null);</span>
+<span class="nc" id="L20">	        	returnProduct.add(sp);</span>
+<span class="nc" id="L21">	            }</span>
+<span class="nc" id="L22">			return returnProduct;</span>
+		}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

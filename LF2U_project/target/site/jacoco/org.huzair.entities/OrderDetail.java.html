@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OrderDetail.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lf2u</a> &gt; <a href="index.source.html" class="el_package">org.huzair.entities</a> &gt; <span class="el_source">OrderDetail.java</span></div><h1>OrderDetail.java</h1><pre class="source lang-java linenums">package org.huzair.entities;
+public class OrderDetail {
+	private String fspid;
+	private double amount;
+	private String amount_asStr;
+	private String name;
+	private double price;
+	private String price_asStr;
+	private double line_item_total;
+	StoreProduct sp;
+	ProductCatalog product;
+	
+	public OrderDetail(String fspid,double amount)
+<span class="fc" id="L14">	{</span>
+<span class="fc" id="L15">		this.fspid = fspid;</span>
+<span class="fc" id="L16">		this.amount = amount;</span>
+		
+<span class="fc" id="L18">	}</span>
+	public double getLineItemTotal(){
+<span class="fc" id="L20">		return line_item_total;</span>
+	}
+	public boolean validate(){
+<span class="pc bpc" id="L23" title="1 of 4 branches missed.">		if(this.fspid!=null	 &amp;&amp; this.amount&gt;0)</span>
+<span class="fc" id="L24">			return true;</span>
+<span class="fc" id="L25">		return false;</span>
+	}
+	public String getFspid(){
+<span class="fc" id="L28">		return fspid;</span>
+	}
+	public void setPrice(double price){
+<span class="fc" id="L31">		this.price = price;</span>
+<span class="fc" id="L32">		this.line_item_total = Math.floor((price*amount) * 100) / 100;</span>
+<span class="fc" id="L33">	}</span>
+	public boolean match(String keyword) {
+<span class="nc" id="L35">		String all = fspid+&quot; &quot;+amount+&quot; &quot;+name+&quot; &quot;+price+&quot; &quot;+line_item_total;</span>
+<span class="nc" id="L36">		all = all.toLowerCase();</span>
+<span class="nc" id="L37">		return all.matches(&quot;.*\\b&quot; + keyword + &quot;\\b.*&quot;);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

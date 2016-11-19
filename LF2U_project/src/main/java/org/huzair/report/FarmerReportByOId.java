@@ -43,19 +43,6 @@ public class FarmerReportByOId {
 		this.delivery_address = ordered_by.getStreet();
 		ordered_by.setStreet(null);
 		this.note = order.getDelivery_note();
-		this.order_detail = order.getAllDetails();
-		
-		//int fid = viewFarmersByOid(oid);
-		
+		this.order_detail = order.getAllDetails();	
 	}
-	/*public int viewFarmerByOid(int oid){
-		 CustomerBI Cbi = new CustomerManager();
-		 ArrayList<Order> allorders = Cbi.viewAllOrders();
-			Iterator<Order> oiterator = allorders.listIterator();
-	        while(oiterator.hasNext()) {
-	            Order order = oiterator.next();
-	            if(order.matchesId(oid))
-	            	return order.getFid();
-	        }
-     }*/
 }

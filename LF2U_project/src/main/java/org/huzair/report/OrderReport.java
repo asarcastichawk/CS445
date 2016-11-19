@@ -36,5 +36,7 @@ public class OrderReport {
 		this.products_total = o.getProductsTotal();
 		this.order_total = products_total + delivery_charge;
 	}
-	
+	public String getOid(){
+	return oid;
+}
 }

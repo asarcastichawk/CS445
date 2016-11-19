@@ -1,5 +1,7 @@
 package org.huzair.rest;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -98,14 +100,13 @@ public class RESTCustomer {
 			}
 			catch(Exception e){	
 				return Response.status(400).entity(gson.toJson(e)).build();
-			}
-			
+			}		
 			if(!order.validate())
-				return Response.status(Response.Status.BAD_REQUEST).build();
-			
+				return Response.status(Response.Status.BAD_REQUEST).build();			
 			id = bi.createOrder(cid, order);
-			json.addProperty("oid", id );
-			
+			if(id.equalsIgnoreCase("0"))
+				return Response.status(422).build();
+			json.addProperty("oid", id );			
 			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
 	        builder.path(id);
 	        
@@ -119,7 +120,8 @@ public class RESTCustomer {
 		cust = bi.viewAccount(cid);
 		if(cust==null)
 			return Response.status(Response.Status.NOT_FOUND).build();
-		String sjson = gson.toJson(bi.viewAllOrders(cid));
+		ArrayList<Order> allorders = bi.viewAllOrders(cid);
+		String sjson = gson.toJson(GET_Order.allGetOrders(allorders));
 		return Response.ok(sjson).build();
 			
 	}
@@ -129,7 +131,8 @@ public class RESTCustomer {
     public Response viewOrderReport(@PathParam("cid") String cid,@PathParam("oid") String oid) {
 		Customer cust;
 		cust = bi.viewAccount(cid);
-		if(cust==null)
+		Order o = bi.viewById(oid);
+		if(cust==null||o==null)
 			return Response.status(Response.Status.NOT_FOUND).build();
 		String sjson = gson.toJson(bi.viewOrderReport(oid));
 		return Response.ok(sjson).build();
@@ -139,7 +142,6 @@ public class RESTCustomer {
 	@POST
     public Response cancelOrder(@Context UriInfo uriInfo, @PathParam("cid") String cid,@PathParam("oid") String oid, String json_in) {
 		Customer cust;
-		int id;
 		cust = bi.viewAccount(cid);
 		if(cust==null)
 			return Response.status(Response.Status.NOT_FOUND).build();

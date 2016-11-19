@@ -11,9 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.huzair.boundary_interfaces.CustomerBI;
 import org.huzair.boundary_interfaces.FarmerBI;
 import org.huzair.entities.Customer;
+import org.huzair.entities.Farmer;
 import org.huzair.entities.Order;
 import org.huzair.entities.OrderDetail;
-import org.huzair.entities.StoreProduct;
 import org.huzair.report.OrderReport;
 
 public class CustomerManager implements CustomerBI{
@@ -60,16 +60,22 @@ public class CustomerManager implements CustomerBI{
 	@Override
 	public Customer viewAccount(String cid) {
 		Customer customer = getCustomerById(cid);
-		///if(customer!= null)
 			return customer;
-		//return null;
 	}
 
 	//Creates an order if the customer id is found and returns the order id
 	@Override
 	public String createOrder(String cid, Order o) {
-		if(getCustomerById(cid)==null)
+		Customer c = getCustomerById(cid);
+		if(c==null)
 			return null;
+		Farmer farm = FBi.viewAccount(o.getFid());
+		if(farm==null)
+			return "0";
+		ArrayList<String> zipcodes = farm.getDeliversTo();
+		if(!zipcodes.contains(c.getZip()))
+			return "0";
+		
 		Order order = new Order(o);
 		order.setCid(cid);
 		order.setOid(Integer.toString(orderAtomicInteger.incrementAndGet()));
@@ -77,21 +83,21 @@ public class CustomerManager implements CustomerBI{
 		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 0);
 		Date today = Calendar.getInstance().getTime();
 		order.setOrder_date(dateFormat.format(today));
-		Calendar.getInstance().add(Calendar.DAY_OF_MONTH, 1);
-		Date tom = Calendar.getInstance().getTime();
-		order.setPlanned_delivery_date(dateFormat.format(tom));
 		double total = 0;
-		
 		Map<String,Double> hashmap = FBi.getHashmap();
 		
 		ArrayList<OrderDetail> details = order.getAllDetails();
 		Iterator<OrderDetail> od = details.listIterator();
         while(od.hasNext()) {
             OrderDetail odetails = od.next();
-            System.out.print(odetails.getFspid());
-            odetails.setPrice(hashmap.get(odetails.getFspid()));
-            
-            System.out.print(odetails.getPrice());
+            double price = 0;
+            if(odetails!=null){
+            	try{
+            	price = hashmap.get(odetails.getFspid());
+            	}
+            	catch(Exception e){}
+            	odetails.setPrice(price);
+            }
         }
            /*A ArrayList<StoreProduct> sproducts = FBi.viewStore(order.getFid());
     		Iterator<StoreProduct> s = sproducts.listIterator();
@@ -103,9 +109,9 @@ public class CustomerManager implements CustomerBI{
                 }
             }  */
         //}
-     //   order.setProductTotal(total);
-       // order.setAllDetails(details);
-		//orders.add(order);
+        order.setProductTotal(total);
+        order.setAllDetails(details);
+		orders.add(order);
 		String oid_as_str = order.getOid();
 		return oid_as_str;
 	}
@@ -167,6 +173,12 @@ public class CustomerManager implements CustomerBI{
 	public ArrayList<Customer> viewAllCustomers(){
 		return customers;
 	}
-	
+	@Override
+	public void setNull(){
+		customers.clear();
+		orders.clear();
+		atomicInteger.set(0);
+		orderAtomicInteger.set(0);
+	}
 	
 }

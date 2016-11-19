@@ -1,7 +1,6 @@
 package org.huzair.entities;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Store {
 	
@@ -10,7 +9,6 @@ public class Store {
 	public ArrayList<StoreProduct> getAllStoreProducts(){
 		return products;
 	}
-	
 	public void setStoreProducts(StoreProduct s){
 		products.add(s);
 	}

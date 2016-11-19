@@ -22,10 +22,10 @@ public class FarmerReportType {
 		return alltypes;
 	}
 	private void allReportTypes(){
-		FarmerReportType R1 = new FarmerReportType("frid1","Orders to deliver today");
-		FarmerReportType R2 = new FarmerReportType("frid2","Orders to deliver tomorrow");
-		FarmerReportType R3 = new FarmerReportType("frid3","Revenue report");
-		FarmerReportType R4 = new FarmerReportType("frid4","Orders delivery report");
+		FarmerReportType R1 = new FarmerReportType("1","Orders to deliver today");
+		FarmerReportType R2 = new FarmerReportType("2","Orders to deliver tomorrow");
+		FarmerReportType R3 = new FarmerReportType("3","Revenue report");
+		FarmerReportType R4 = new FarmerReportType("4","Orders delivery report");
 		alltypes = new ArrayList<FarmerReportType>();
 		alltypes.add(R1);
 		alltypes.add(R2);

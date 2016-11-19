@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Order.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lf2u</a> &gt; <a href="index.source.html" class="el_package">org.huzair.entities</a> &gt; <span class="el_source">Order.java</span></div><h1>Order.java</h1><pre class="source lang-java linenums">package org.huzair.entities;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Order {
+	
+	private String oid;
+	private String fid;
+	private String cid;
+<span class="fc" id="L10">	private ArrayList&lt;OrderDetail&gt; order_detail = new ArrayList&lt;OrderDetail&gt;();</span>
+	private String delivery_note;
+	private String status;
+	private String order_date;
+	private String planned_delivery_date;
+	private String actual_delivery_date;
+	private double products_total;
+
+	public Order(String fid, ArrayList&lt;OrderDetail&gt; order_detail, String delivery_note)
+<span class="fc" id="L19">	{</span>
+<span class="fc" id="L20">		this.fid = fid;</span>
+<span class="fc" id="L21">		this.order_detail = new ArrayList&lt;OrderDetail&gt;(order_detail);</span>
+<span class="fc" id="L22">		this.delivery_note = delivery_note;	</span>
+<span class="fc" id="L23">		this.products_total = getProductsTotal();</span>
+<span class="fc" id="L24">	}</span>
+	
+<span class="fc" id="L26">	public Order(Order another) {</span>
+<span class="fc" id="L27">	    this.fid = another.getFid();</span>
+<span class="fc" id="L28">	    this.order_detail = new ArrayList&lt;OrderDetail&gt;(another.getAllDetails());</span>
+<span class="fc" id="L29">	    this.delivery_note = another.getDelivery_note();</span>
+<span class="fc" id="L30">	    this.status = another.getStatus();</span>
+<span class="fc" id="L31">	    this.order_date = another.getOrder_date();</span>
+<span class="fc" id="L32">	    this.planned_delivery_date = another.getPlanned_delivery_date();</span>
+<span class="fc" id="L33">	  }</span>
+	
+	public void setOid(String oid){
+<span class="fc" id="L36">		this.oid = oid;</span>
+<span class="fc" id="L37">	}</span>
+	public ArrayList&lt;OrderDetail&gt; getAllDetails()
+	{
+<span class="fc" id="L40">		return order_detail;</span>
+	}
+	public void setAllDetails(ArrayList&lt;OrderDetail&gt; order_detail)
+	{
+<span class="fc" id="L44">		this.order_detail = order_detail;</span>
+<span class="fc" id="L45">	}</span>
+	public String getCid() {
+<span class="fc" id="L47">		return cid;</span>
+	}
+	public void setCid(String cid) {
+<span class="fc" id="L50">		this.cid = cid;</span>
+<span class="fc" id="L51">	}</span>
+	public String getOid() {
+<span class="fc" id="L53">		return oid;</span>
+	}
+	public boolean matchesId(String oid) {
+<span class="fc" id="L56">	    return(this.oid.equalsIgnoreCase(oid));</span>
+	}
+	public String getStatus() {
+<span class="fc" id="L59">		return status;</span>
+	}
+	public void setStatus(String status) {
+<span class="fc" id="L62">		this.status = status;</span>
+<span class="fc" id="L63">	}</span>
+	public String getActualDate() {
+<span class="fc" id="L65">		return actual_delivery_date;</span>
+	}
+	public void setActualDate(String actual_delivery_date) {
+<span class="fc" id="L68">		this.actual_delivery_date = actual_delivery_date;</span>
+<span class="fc" id="L69">	}</span>
+	public String getDelivery_note() {
+<span class="fc" id="L71">		return delivery_note;</span>
+	}
+	
+	public String getOrder_date() {
+<span class="fc" id="L75">		return order_date;</span>
+	}
+	public void setProductTotal(double products_total){
+<span class="fc" id="L78">		this.products_total = products_total;</span>
+<span class="fc" id="L79">	}</span>
+
+	public void setOrder_date(String order_date) {
+<span class="fc" id="L82">		this.order_date = order_date;</span>
+<span class="fc" id="L83">		int store = Integer.parseInt(order_date) + 1;</span>
+<span class="fc" id="L84">		this.planned_delivery_date = Integer.toString(store);</span>
+<span class="fc" id="L85">	}</span>
+	public String getPlanned_delivery_date() {
+<span class="fc" id="L87">		return planned_delivery_date;</span>
+	}
+	public String getFid() {
+<span class="fc" id="L90">		return fid;</span>
+	}
+
+	
+	public double getProductsTotal(){
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		if(this.order_detail!=null){	</span>
+<span class="fc" id="L96">			Iterator&lt;OrderDetail&gt; o = order_detail.listIterator();</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">			while(o.hasNext()) {</span>
+<span class="fc" id="L98">				OrderDetail odetail = o.next();</span>
+<span class="fc" id="L99">				products_total += odetail.getLineItemTotal();	</span>
+<span class="fc" id="L100">			}</span>
+		}
+<span class="fc" id="L102">		return products_total;</span>
+	}
+	
+	public boolean validate() {
+<span class="fc bfc" id="L106" title="All 2 branches covered.">		boolean isValid = this.fid!=null;</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">		if(this.order_detail!=null){	</span>
+<span class="fc" id="L108">			Iterator&lt;OrderDetail&gt; o = order_detail.listIterator();</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">			while(o.hasNext()) {</span>
+<span class="fc" id="L110">				OrderDetail odetail = o.next();</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">				if(!odetail.validate())</span>
+<span class="fc" id="L112">					return false;</span>
+<span class="fc" id="L113">			}</span>
+        }
+<span class="fc" id="L115">		return isValid;</span>
+	}
+	
+	public boolean statusValidate() {
+<span class="nc" id="L119">		String status = this.status;</span>
+<span class="nc" id="L120">		return status.equalsIgnoreCase(&quot;Cancelled&quot;);</span>
+			
+	}
+
+	public boolean match(String keyword){
+<span class="nc" id="L125">		Iterator&lt;OrderDetail&gt; o = order_detail.listIterator();</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        while(o.hasNext()) {</span>
+<span class="nc" id="L127">            OrderDetail odetail = o.next();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            if(odetail.match(keyword))</span>
+<span class="nc" id="L129">            	return true;}</span>
+<span class="nc" id="L130">        String all = this.toString();</span>
+<span class="nc" id="L131">        return all.matches(&quot;.*\\b&quot; + keyword + &quot;\\b.*&quot;);</span>
+	}
+	
+	public String toString(){
+<span class="nc" id="L135">		return	 (oid+&quot; &quot;+cid+&quot; &quot;+fid+&quot; &quot;+delivery_note+&quot; &quot;+status+&quot; &quot;</span>
+				 +order_date+&quot; &quot;+planned_delivery_date+&quot; &quot;+actual_delivery_date
+<span class="nc" id="L137">				 +&quot; &quot;+products_total).toLowerCase();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

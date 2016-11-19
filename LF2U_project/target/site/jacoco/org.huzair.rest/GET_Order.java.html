@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GET_Order.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lf2u</a> &gt; <a href="index.source.html" class="el_package">org.huzair.rest</a> &gt; <span class="el_source">GET_Order.java</span></div><h1>GET_Order.java</h1><pre class="source lang-java linenums">package org.huzair.rest;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import org.huzair.entities.Order;
+
+public class GET_Order {
+private String oid;
+private String order_date;
+private String planned_delivery_date;
+private String actual_delivery_date;
+private String status;
+private String fid;
+
+<span class="nc" id="L15">public GET_Order(Order o){</span>
+<span class="nc" id="L16">	this.oid = o.getOid();</span>
+<span class="nc" id="L17">	this.order_date = o.getOrder_date();</span>
+<span class="nc" id="L18">	this.planned_delivery_date = o.getPlanned_delivery_date();</span>
+<span class="nc" id="L19">	this.actual_delivery_date = o.getActualDate();</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">	if(actual_delivery_date==null)</span>
+<span class="nc" id="L21">		this.actual_delivery_date = &quot;&quot;;</span>
+<span class="nc" id="L22">	this.status = o.getStatus();</span>
+<span class="nc" id="L23">	this.fid = o.getFid();</span>
+<span class="nc" id="L24">}</span>
+
+public static ArrayList&lt;GET_Order&gt; allGetOrders(ArrayList&lt;Order&gt; orders){
+<span class="nc" id="L27">	ArrayList&lt;GET_Order&gt; getorders = new ArrayList&lt;GET_Order&gt;();</span>
+<span class="nc" id="L28">	Iterator&lt;Order&gt; o = orders.listIterator();</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">    while(o.hasNext()) {</span>
+<span class="nc" id="L30">        GET_Order thisorder = new GET_Order(o.next());</span>
+<span class="nc" id="L31">        getorders.add(thisorder);</span>
+<span class="nc" id="L32">        }</span>
+<span class="nc" id="L33">    	return getorders;</span>
+}
+public static GET_Order getOrder(Order order){
+<span class="nc" id="L36">	GET_Order thisorder = new GET_Order(order);</span>
+<span class="nc" id="L37">	return thisorder;</span>
+	
+}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

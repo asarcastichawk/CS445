@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RESTFarmer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lf2u</a> &gt; <a href="index.source.html" class="el_package">org.huzair.rest</a> &gt; <span class="el_source">RESTFarmer.java</span></div><h1>RESTFarmer.java</h1><pre class="source lang-java linenums">	package org.huzair.rest;
+import org.huzair.boundary_interfaces.FarmerBI;
+import org.huzair.entities.Farmer;
+import org.huzair.entities.StoreProduct;
+import org.huzair.report.FarmerReport;
+import org.huzair.use_cases.FarmerManager;
+import org.json.JSONObject;
+import java.util.ArrayList;
+import javax.ws.rs.GET;
+	import javax.ws.rs.POST;
+	import javax.ws.rs.PUT;
+	import javax.ws.rs.Path;
+	import javax.ws.rs.PathParam;
+	import javax.ws.rs.Produces;
+	import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+	import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+
+import com.google.gson.Gson;
+	import com.google.gson.JsonObject;
+
+	@Path(&quot;/farmers&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+<span class="nc" id="L27">	public class RESTFarmer  {</span>
+		
+<span class="nc" id="L29">		private FarmerBI bi = new FarmerManager();</span>
+<span class="nc" id="L30">		Gson gson = new Gson();</span>
+<span class="nc" id="L31">		JsonObject json = new JsonObject();</span>
+		
+		@POST
+	    public Response createFarm(@Context UriInfo uriInfo,String json_in) {
+				Farmer farm;
+<span class="nc" id="L36">				try{ farm = gson.fromJson(json_in, Farmer.class); }</span>
+<span class="nc" id="L37">				catch(Exception e){ return Response.status(400).entity(gson.toJson(e)).build(); }</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">				if(!farm.validate())</span>
+<span class="nc" id="L39">					return Response.status(Response.Status.BAD_REQUEST).build();</span>
+<span class="nc" id="L40">				String id = bi.createAccount(farm);</span>
+<span class="nc" id="L41">				json.addProperty(&quot;fid&quot;, id);</span>
+<span class="nc" id="L42">				UriBuilder builder = uriInfo.getAbsolutePathBuilder();</span>
+<span class="nc" id="L43">		        builder.path(id);</span>
+<span class="nc" id="L44">		        return Response.created(builder.build()).entity(json.toString()).build();</span>
+			}
+		
+		@Path(&quot;{id}&quot;)
+		@PUT
+	    public Response updateAccount(@PathParam(&quot;id&quot;) String fid, String json_in) {
+				Farmer farm;
+<span class="nc" id="L51">				farm = bi.viewAccount(fid);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">				if(farm==null)</span>
+<span class="nc" id="L53">					 return Response.status(Response.Status.NOT_FOUND).build();</span>
+<span class="nc" id="L54">				try{ farm = gson.fromJson(json_in, Farmer.class); }</span>
+<span class="nc" id="L55">				catch(Exception e){ return Response.status(400).entity(gson.toJson(e)).build(); }</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">				if(!farm.validate())</span>
+<span class="nc" id="L57">					return Response.status(Response.Status.BAD_REQUEST).build();</span>
+<span class="nc" id="L58">				bi.updateAccount(fid, farm);</span>
+<span class="nc" id="L59">				return Response.status(200).build(); </span>
+		}
+		
+		@Path(&quot;{id}&quot;)
+		@GET
+	    public Response viewAccount(@PathParam(&quot;id&quot;) String fid) {
+				Farmer farm;
+<span class="nc" id="L66">				farm = bi.viewAccount(fid);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">				if(farm==null)</span>
+<span class="nc" id="L68">					 return Response.status(Response.Status.NOT_FOUND).build();</span>
+				String sjson;
+<span class="nc" id="L70">				try{ sjson = gson.toJson(GET_Farmer.getFarmer(farm)); }</span>
+<span class="nc" id="L71">				catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build(); }</span>
+<span class="nc" id="L72">				return Response.ok(sjson).build(); </span>
+		}
+
+		@GET
+	    public Response viewFarmers(@QueryParam (&quot;zip&quot;) String zip) {
+<span class="nc" id="L77">				ArrayList&lt;Farmer&gt; allfarmers = bi.viewFarmers(zip);</span>
+<span class="nc" id="L78">				String sjson = gson.toJson(GET_FarmerZip.allGetFarmers(allfarmers));</span>
+<span class="nc" id="L79">				return Response.ok(sjson).build(); </span>
+		}
+
+		@Path(&quot;{id}/products&quot;)
+		@GET
+	    public Response viewStore(@PathParam(&quot;id&quot;) String fid) {
+			Farmer farm;
+<span class="nc" id="L86">			farm = bi.viewAccount(fid);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">			if(farm==null)</span>
+<span class="nc" id="L88">				 return Response.status(Response.Status.NOT_FOUND).build();</span>
+<span class="nc" id="L89">			ArrayList&lt;StoreProduct&gt; products = bi.viewStore(fid);</span>
+<span class="nc" id="L90">			String sjson = gson.toJson(GET_Store.getAllStoreProducts(products));</span>
+<span class="nc" id="L91">			return Response.ok(sjson).build();</span>
+				
+		}
+		@Path(&quot;{id}/products&quot;)
+		@POST
+		public Response addProduct(@Context UriInfo uriInfo, @PathParam(&quot;id&quot;) String fid, String json_in) {
+<span class="nc" id="L97">				Farmer farm = bi.viewAccount(fid);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">				if(farm==null)</span>
+<span class="nc" id="L99">					return Response.status(Response.Status.NOT_FOUND).build();</span>
+				StoreProduct product;
+<span class="nc" id="L101">				try{ product = gson.fromJson(json_in, StoreProduct.class);}</span>
+<span class="nc" id="L102">				catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build();}</span>
+<span class="nc" id="L103">				String id = bi.addProduct(fid, product);</span>
+<span class="nc bnc" id="L104" title="All 4 branches missed.">				if(!product.validate()||id==null)</span>
+<span class="nc" id="L105">					return Response.status(Response.Status.BAD_REQUEST).build();</span>
+<span class="nc" id="L106">				json.addProperty(&quot;fspid&quot;, id );</span>
+<span class="nc" id="L107">				UriBuilder builder = uriInfo.getAbsolutePathBuilder();</span>
+<span class="nc" id="L108">		        builder.path(id);</span>
+<span class="nc" id="L109">		        return Response.created(builder.build()).entity(json.toString()).build(); </span>
+			}
+	
+		@Path(&quot;{fid}/products/{fspid}&quot;)
+		@GET
+	    public Response viewProduct(@PathParam(&quot;fid&quot;) String fid, @PathParam(&quot;fspid&quot;) String fspid) {
+			Farmer farm;
+<span class="nc" id="L116">			farm = bi.viewAccount(fid);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">			if(farm==null)</span>
+<span class="nc" id="L118">				 return Response.status(Response.Status.NOT_FOUND).build();</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">			else if(bi.viewStore(fid)==null)</span>
+<span class="nc" id="L120">				 return Response.status(Response.Status.NOT_FOUND).build();</span>
+			String json;
+<span class="nc" id="L122">			try{ json = gson.toJson(bi.viewProduct(fid, fspid)); }</span>
+<span class="nc" id="L123">			catch(Exception e){ return Response.status(400).entity(gson.toJson(e)).build(); }</span>
+<span class="nc" id="L124">			return Response.ok(json.toString()).build(); </span>
+		}
+		
+		@Path(&quot;{fid}/delivery_charge&quot;)
+		@GET
+	    public Response viewDelivery(@PathParam(&quot;fid&quot;) String fid) {
+<span class="nc" id="L130">				Farmer farm = bi.viewAccount(fid);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">				if(farm==null)</span>
+<span class="nc" id="L132">					 return Response.status(Response.Status.NOT_FOUND).build();</span>
+<span class="nc" id="L133">				double vdelivery = farm.getDeliveryCharge();</span>
+<span class="nc" id="L134">				vdelivery = Math.round (vdelivery * 100.0) / 100.0; </span>
+<span class="nc" id="L135">				json.addProperty(&quot;delivery_charge&quot;, vdelivery);</span>
+<span class="nc" id="L136">				return Response.ok(json.toString()).build(); </span>
+			}
+		
+		@Path(&quot;{fid}/delivery_charge&quot;)
+		@POST
+	    public Response updateDelivery(@Context UriInfo uriInfo,@PathParam(&quot;fid&quot;) String fid, String json_in) {
+<span class="nc" id="L142">			Farmer farm = bi.viewAccount(fid);</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">			if(farm==null)</span>
+<span class="nc" id="L144">				 return Response.status(Response.Status.NOT_FOUND).build();</span>
+			try{
+<span class="nc" id="L146">				JSONObject json = new JSONObject(json_in);</span>
+<span class="nc" id="L147">				double x = json.getDouble(&quot;delivery_charge&quot;);</span>
+<span class="nc" id="L148">				farm.setDeliveryCharge(x);</span>
+				}
+<span class="nc" id="L150">			catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build(); }</span>
+			
+<span class="nc" id="L152">			UriBuilder builder = uriInfo.getBaseUriBuilder();</span>
+<span class="nc" id="L153">	        builder.path(&quot;admin/&quot;+fid+&quot;/delivery_charge&quot;);</span>
+<span class="nc" id="L154">	        return Response.status(204).location((builder.build())).build(); </span>
+			}
+		
+		@Path(&quot;{id}/products/{fspid}&quot;)
+		@POST
+	    public Response modifyProduct(@Context UriInfo uriInfo, @PathParam(&quot;id&quot;) String fid,@PathParam(&quot;fspid&quot;) String fspid, String json_in) {
+				StoreProduct sproduct;
+<span class="nc" id="L161">				sproduct = bi.viewProduct(fid, fspid);</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">				if(sproduct==null)</span>
+<span class="nc" id="L163">					return Response.status(Response.Status.NOT_FOUND).build();</span>
+<span class="nc" id="L164">				try{ sproduct = gson.fromJson(json_in, StoreProduct.class); }</span>
+<span class="nc" id="L165">				catch(Exception e){	return Response.status(400).entity(gson.toJson(e)).build();}</span>
+<span class="nc" id="L166">				bi.modifyProduct(fid, fspid, sproduct);</span>
+<span class="nc" id="L167">				UriBuilder builder = uriInfo.getAbsolutePathBuilder();</span>
+<span class="nc" id="L168">		        return Response.ok(builder.build()).entity(&quot;&quot;).build(); </span>
+		}
+	
+		@Path(&quot;{fid}/reports&quot;)
+		@GET
+	    public Response viewReportType(@PathParam(&quot;fid&quot;) String fid) {
+<span class="nc" id="L174">				String sjson = gson.toJson(bi.allReportTypes());</span>
+<span class="nc" id="L175">				return Response.ok(sjson).build(); </span>
+		}
+		@Path(&quot;{fid}/reports/{frid}&quot;)
+		@GET
+	    public Response viewReport(@PathParam(&quot;fid&quot;) String fid,@PathParam(&quot;frid&quot;) String frid){
+<span class="nc" id="L180">			FarmerReport orderByFrid = new FarmerReport(frid,fid);</span>
+<span class="nc" id="L181">			String sjson = gson.toJson(orderByFrid);</span>
+<span class="nc" id="L182">			return Response.ok(sjson).build();</span>
+		}
+	}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

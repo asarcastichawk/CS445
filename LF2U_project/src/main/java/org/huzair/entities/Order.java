@@ -53,7 +53,7 @@ public class Order {
 		return oid;
 	}
 	public boolean matchesId(String oid) {
-	    return(oid == this.oid);
+	    return(this.oid.equalsIgnoreCase(oid));
 	}
 	public String getStatus() {
 		return status;
@@ -70,33 +70,26 @@ public class Order {
 	public String getDelivery_note() {
 		return delivery_note;
 	}
-	public void setDelivery_note(String delivery_note) {
-		this.delivery_note = delivery_note;
-	}
+	
 	public String getOrder_date() {
 		return order_date;
 	}
 	public void setProductTotal(double products_total){
 		this.products_total = products_total;
 	}
-	public double getProductTotal(){
-		return products_total;
-	}
+
 	public void setOrder_date(String order_date) {
 		this.order_date = order_date;
+		int store = Integer.parseInt(order_date) + 1;
+		this.planned_delivery_date = Integer.toString(store);
 	}
 	public String getPlanned_delivery_date() {
 		return planned_delivery_date;
 	}
-	public void setPlanned_delivery_date(String planned_delivery_date) {
-		this.planned_delivery_date = planned_delivery_date;
-	}
 	public String getFid() {
 		return fid;
 	}
-	public void setFid(String fid) {
-		this.fid = fid;
-	}
+
 	
 	public double getProductsTotal(){
 		if(this.order_detail!=null){	
@@ -109,7 +102,6 @@ public class Order {
 		return products_total;
 	}
 	
-	//Mark
 	public boolean validate() {
 		boolean isValid = this.fid!=null;
 		if(this.order_detail!=null){	

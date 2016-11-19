@@ -17,5 +17,5 @@ public interface CustomerBI {
 	public void cancelOrder(String cid, String oid, String status);
 	public ArrayList<Order> viewAllOrders();
 	public ArrayList<Customer> viewAllCustomers();
-	
+	void setNull();
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GET_Farmer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lf2u</a> &gt; <a href="index.source.html" class="el_package">org.huzair.rest</a> &gt; <span class="el_source">GET_Farmer.java</span></div><h1>GET_Farmer.java</h1><pre class="source lang-java linenums">package org.huzair.rest;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.huzair.entities.FarmInfo;
+import org.huzair.entities.Farmer;
+import org.huzair.entities.PersonalInfo;
+
+public class GET_Farmer {
+
+	private String fid;
+	private FarmInfo farm_info;
+	private PersonalInfo personal_info;
+	private ArrayList&lt;String&gt; delivers_to;
+	
+<span class="nc" id="L17">	public GET_Farmer(Farmer f){</span>
+<span class="nc" id="L18">		this.fid = f.getFid();</span>
+<span class="nc" id="L19">		this.delivers_to = f.getDeliversTo();</span>
+<span class="nc" id="L20">		this.farm_info = f.getFarmInfo();</span>
+<span class="nc" id="L21">		this.personal_info = f.getPersonalInfo();</span>
+<span class="nc" id="L22">	}</span>
+	
+	public static ArrayList&lt;GET_Farmer&gt; allGetFarmers(ArrayList&lt;Farmer&gt; farmers){
+<span class="nc" id="L25">		ArrayList&lt;GET_Farmer&gt; getfarmers = new ArrayList&lt;GET_Farmer&gt;();</span>
+<span class="nc" id="L26">		Iterator&lt;Farmer&gt; f = farmers.listIterator();</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        while(f.hasNext()) {</span>
+<span class="nc" id="L28">            GET_Farmer thisfarmer = new GET_Farmer(f.next());</span>
+<span class="nc" id="L29">            getfarmers.add(thisfarmer);</span>
+<span class="nc" id="L30">            }</span>
+<span class="nc" id="L31">        	return getfarmers;</span>
+	}
+	public static GET_Farmer getFarmer(Farmer farm){
+<span class="nc" id="L34">		GET_Farmer thisfarmer = new GET_Farmer(farm);</span>
+<span class="nc" id="L35">		return thisfarmer;</span>
+		
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

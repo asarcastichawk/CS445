@@ -17,15 +17,6 @@ public class Customer {
 		this.phone = phone;
 		this.email = email;
 	}
-	public Customer(Customer another){
-		this.name = another.name;
-		this.street = another.street;
-		this.zip = another.zip;
-		this.street = another.street;
-		this.phone = another.phone;
-		this.email = another.email;
-	}
-
 	public String getCid() {
 		return this.cid;
 	}
@@ -66,13 +57,11 @@ public class Customer {
 		email = c.getEmail();
 }
 
-	//Mark
 	public boolean validate() {
 		if(name!=null && street!= null && zip!=null && phone!=null && email!=null)
 			return true;
 		return false;
 	}
-	
 	
 	public boolean match(String keyword) {
 		String all = name+" "+street+" "+zip+" "+phone+" "+email;

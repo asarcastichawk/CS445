@@ -18,7 +18,7 @@ public class FarmerManager implements FarmerBI {
 	private static AtomicInteger atomicInteger_products = new AtomicInteger();
 	private static ArrayList<Farmer> farmers = new ArrayList<Farmer>();
 	private static Map<String,Double> fspid_price = new HashMap<String,Double>();
-	private static LF2UManager LM = new LF2UManager();
+	private LF2UManager LM = new LF2UManager();
 	
 	
 	//Create farmer account;
@@ -53,6 +53,7 @@ public class FarmerManager implements FarmerBI {
 	}
 	
 	//Get farmer by zipcode
+	@Override
 	public Farmer getFarmerZip(Farmer farm, String zip){
 		ArrayList<String> farmer_zip = farm.getDeliversTo();
 		if(farmer_zip.contains(zip)||zip==null)
@@ -162,5 +163,12 @@ public class FarmerManager implements FarmerBI {
 	}
 	public Map<String,Double> getHashmap(){
 		return fspid_price;
+	}
+	@Override
+	public void setNull(){
+		farmers.clear();
+		fspid_price.clear();
+		atomicInteger.set(0);
+		atomicInteger_products.set(0);
 	}
 }

@@ -14,7 +14,8 @@ public class Search {
 	public Search(String topic,String keyword){
 		this.topic = topic;
 		this.keyword = keyword;
-		this.keyword = keyword.toLowerCase();
+		if(keyword!=null)
+			this.keyword = this.keyword.toLowerCase();
 	}
 	
 	public <T> ArrayList<T> determineTopic() {
@@ -34,7 +35,7 @@ public class Search {
 		Iterator<Customer> c = customer.listIterator();
         while(c.hasNext()) {
             Customer cust = c.next();
-            if(cust.match(keyword))
+            if(keyword==null||cust.match(keyword))
             	found.add(cust);
         }
 		return found;
@@ -47,7 +48,7 @@ public class Search {
         while(o.hasNext()) {
         	Order order = o.next();
             OrderReport oreport = new OrderReport(order);
-            if(order.match(keyword))
+            if(keyword==null||order.match(keyword))
             	found.add(oreport);
         }
 		return found;		
@@ -59,7 +60,7 @@ public class Search {
 		Iterator<Farmer> f = farmers.listIterator();
         while(f.hasNext()) {
             Farmer farm = f.next();
-            if(farm.match(keyword))
+            if(keyword==null||farm.match(keyword))
             	found.add(farm);
         }
 		return found;

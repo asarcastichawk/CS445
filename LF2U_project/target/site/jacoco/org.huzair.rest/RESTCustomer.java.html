@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RESTCustomer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lf2u</a> &gt; <a href="index.source.html" class="el_package">org.huzair.rest</a> &gt; <span class="el_source">RESTCustomer.java</span></div><h1>RESTCustomer.java</h1><pre class="source lang-java linenums">package org.huzair.rest;
+
+import java.util.ArrayList;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+import org.huzair.boundary_interfaces.CustomerBI;
+import org.huzair.entities.Customer;
+import org.huzair.entities.Order;
+import org.huzair.use_cases.CustomerManager;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+@Path(&quot;/customers&quot;)
+@Produces(MediaType.APPLICATION_JSON)
+<span class="nc" id="L25">public class RESTCustomer {</span>
+	
+<span class="nc" id="L27">	private CustomerBI bi = new CustomerManager();</span>
+<span class="nc" id="L28">	Gson gson = new Gson();</span>
+<span class="nc" id="L29">	JsonObject json = new JsonObject();</span>
+	
+	@POST
+    public Response createAccount(@Context UriInfo uriInfo,String json_in) {
+			Customer cust;
+			try{
+<span class="nc" id="L35">				cust = gson.fromJson(json_in, Customer.class);</span>
+			}
+<span class="nc" id="L37">			catch(Exception e){</span>
+<span class="nc" id="L38">				return Response.status(400).entity(gson.toJson(e)).build();</span>
+<span class="nc" id="L39">			}</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">			if(!cust.validate())</span>
+<span class="nc" id="L41">				return Response.status(Response.Status.BAD_REQUEST).build();</span>
+			
+<span class="nc" id="L43">			String id = bi.createAccount(cust);</span>
+<span class="nc" id="L44">			json.addProperty(&quot;cid&quot;, id);</span>
+			
+<span class="nc" id="L46">			UriBuilder builder = uriInfo.getAbsolutePathBuilder();</span>
+<span class="nc" id="L47">	        builder.path(id);</span>
+<span class="nc" id="L48">	        return Response.created(builder.build()).entity(json.toString()).build();</span>
+		}
+	
+	@Path(&quot;{id}&quot;)
+	@PUT
+    public Response updateAccount(@PathParam(&quot;id&quot;) String cid, String json_in) {
+			Customer cust;
+<span class="nc" id="L55">			cust = bi.viewAccount(cid);</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">			if(cust==null)</span>
+<span class="nc" id="L57">				 return Response.status(Response.Status.NOT_FOUND).build();</span>
+			try{
+<span class="nc" id="L59">				cust = gson.fromJson(json_in, Customer.class);</span>
+			}
+<span class="nc" id="L61">			catch(Exception e){</span>
+<span class="nc" id="L62">				return Response.status(400).entity(gson.toJson(e)).build();</span>
+<span class="nc" id="L63">			}</span>
+			
+<span class="nc bnc" id="L65" title="All 2 branches missed.">			if(!cust.validate())</span>
+<span class="nc" id="L66">				return Response.status(Response.Status.BAD_REQUEST).build();</span>
+			
+<span class="nc" id="L68">			bi.updateAccount(cid, cust);</span>
+<span class="nc" id="L69">			return Response.status(200).build(); </span>
+	}
+	
+	@Path(&quot;{id}&quot;)
+	@GET
+    public Response viewAccount(@PathParam(&quot;id&quot;) String cid) {
+			Customer cust;
+<span class="nc" id="L76">			cust = bi.viewAccount(cid);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">			if(cust==null)</span>
+<span class="nc" id="L78">				 return Response.status(Response.Status.NOT_FOUND).build();</span>
+			String sjson;
+			try{
+<span class="nc" id="L81">				sjson = gson.toJson(cust);</span>
+			}
+<span class="nc" id="L83">			catch(Exception e){	</span>
+<span class="nc" id="L84">				return Response.status(400).entity(gson.toJson(e)).build();</span>
+<span class="nc" id="L85">			}</span>
+<span class="nc" id="L86">			return Response.ok(sjson).build(); </span>
+	}
+	@Path(&quot;{id}/orders&quot;)
+	@POST
+	public Response createOrder(@Context UriInfo uriInfo, @PathParam(&quot;id&quot;) String cid, String json_in) {
+			
+			Customer cust;
+			String id;
+<span class="nc" id="L94">			cust = bi.viewAccount(cid);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">			if(cust==null)</span>
+<span class="nc" id="L96">				return Response.status(Response.Status.NOT_FOUND).build();</span>
+			Order order;
+			try{
+<span class="nc" id="L99">				order = gson.fromJson(json_in, Order.class);</span>
+			}
+<span class="nc" id="L101">			catch(Exception e){	</span>
+<span class="nc" id="L102">				return Response.status(400).entity(gson.toJson(e)).build();</span>
+<span class="nc" id="L103">			}		</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">			if(!order.validate())</span>
+<span class="nc" id="L105">				return Response.status(Response.Status.BAD_REQUEST).build();			</span>
+<span class="nc" id="L106">			id = bi.createOrder(cid, order);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">			if(id.equalsIgnoreCase(&quot;0&quot;))</span>
+<span class="nc" id="L108">				return Response.status(422).build();</span>
+<span class="nc" id="L109">			json.addProperty(&quot;oid&quot;, id );			</span>
+<span class="nc" id="L110">			UriBuilder builder = uriInfo.getAbsolutePathBuilder();</span>
+<span class="nc" id="L111">	        builder.path(id);</span>
+	        
+<span class="nc" id="L113">	        return Response.created(builder.build()).entity(json.toString()).build(); </span>
+		}
+	
+	@Path(&quot;{id}/orders&quot;)
+	@GET
+    public Response viewOrders(@PathParam(&quot;id&quot;) String cid) {
+		Customer cust;
+<span class="nc" id="L120">		cust = bi.viewAccount(cid);</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">		if(cust==null)</span>
+<span class="nc" id="L122">			return Response.status(Response.Status.NOT_FOUND).build();</span>
+<span class="nc" id="L123">		ArrayList&lt;Order&gt; allorders = bi.viewAllOrders(cid);</span>
+<span class="nc" id="L124">		String sjson = gson.toJson(GET_Order.allGetOrders(allorders));</span>
+<span class="nc" id="L125">		return Response.ok(sjson).build();</span>
+			
+	}
+	
+	@Path(&quot;{cid}/orders/{oid}&quot;)
+	@GET
+    public Response viewOrderReport(@PathParam(&quot;cid&quot;) String cid,@PathParam(&quot;oid&quot;) String oid) {
+		Customer cust;
+<span class="nc" id="L133">		cust = bi.viewAccount(cid);</span>
+<span class="nc" id="L134">		Order o = bi.viewById(oid);</span>
+<span class="nc bnc" id="L135" title="All 4 branches missed.">		if(cust==null||o==null)</span>
+<span class="nc" id="L136">			return Response.status(Response.Status.NOT_FOUND).build();</span>
+<span class="nc" id="L137">		String sjson = gson.toJson(bi.viewOrderReport(oid));</span>
+<span class="nc" id="L138">		return Response.ok(sjson).build();</span>
+			
+	}
+	@Path(&quot;{cid}/orders/{oid}&quot;)
+	@POST
+    public Response cancelOrder(@Context UriInfo uriInfo, @PathParam(&quot;cid&quot;) String cid,@PathParam(&quot;oid&quot;) String oid, String json_in) {
+		Customer cust;
+<span class="nc" id="L145">		cust = bi.viewAccount(cid);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		if(cust==null)</span>
+<span class="nc" id="L147">			return Response.status(Response.Status.NOT_FOUND).build();</span>
+		Order order;
+		try{
+<span class="nc" id="L150">			order = gson.fromJson(json_in, Order.class);</span>
+		}
+<span class="nc" id="L152">		catch(Exception e){	</span>
+<span class="nc" id="L153">			return Response.status(400).entity(gson.toJson(e)).build();</span>
+<span class="nc" id="L154">		}</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">		if(!order.statusValidate())</span>
+<span class="nc" id="L156">			return Response.status(Response.Status.BAD_REQUEST).build();</span>
+			
+<span class="nc" id="L158">		bi.cancelOrder(cid, oid, order.getStatus());</span>
+
+<span class="nc" id="L160">		UriBuilder builder = uriInfo.getAbsolutePathBuilder();</span>
+<span class="nc" id="L161">        builder.path(oid);</span>
+        
+<span class="nc" id="L163">        return Response.ok(builder.build()).build();</span>
+	}
+	}
+	
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

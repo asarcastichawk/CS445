@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Farmer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lf2u</a> &gt; <a href="index.source.html" class="el_package">org.huzair.entities</a> &gt; <span class="el_source">Farmer.java</span></div><h1>Farmer.java</h1><pre class="source lang-java linenums">package org.huzair.entities;
+import java.util.ArrayList;
+
+public class Farmer {
+	
+	private String fid;
+	private FarmInfo farm_info;
+	private PersonalInfo personal_info;
+	private ArrayList&lt;String&gt; delivers_to;
+	private double delivery_charge;
+	private Store store;
+	
+	public Farmer(PersonalInfo personal_info, FarmInfo farm_info, ArrayList&lt;String&gt; delivers_to)
+<span class="fc" id="L14">	{</span>
+<span class="fc" id="L15">		this.personal_info = personal_info;</span>
+<span class="fc" id="L16">		this. farm_info = farm_info;</span>
+<span class="fc" id="L17">		this.delivers_to = delivers_to;</span>
+<span class="fc" id="L18">	}</span>
+	
+	public Store getStore(){
+<span class="fc" id="L21">		return store;</span>
+	}
+	public void setStore(){
+<span class="fc" id="L24">		store = new Store();</span>
+<span class="fc" id="L25">	}</span>
+	public String getFid() {
+<span class="fc" id="L27">	    return this.fid;</span>
+	}
+	public void setFid(String fid){
+<span class="fc" id="L30">		this.fid = fid;</span>
+<span class="fc" id="L31">	}</span>
+	public boolean matchesId(String fid) {
+<span class="fc" id="L33">	    return(this.fid.equalsIgnoreCase(fid));</span>
+	}
+	public ArrayList&lt;String&gt; getDeliversTo(){
+<span class="fc" id="L36">		return delivers_to;</span>
+	}
+	public PersonalInfo getPersonalInfo(){
+<span class="fc" id="L39">		return personal_info;</span>
+	}
+	public FarmInfo getFarmInfo(){
+<span class="fc" id="L42">		return farm_info;</span>
+	}
+	public void setDeliveryCharge(double dc){
+<span class="fc" id="L45">		delivery_charge = dc;</span>
+<span class="fc" id="L46">	}</span>
+	
+	public void setFarm(Farmer f){
+<span class="fc" id="L49">		delivers_to = f.getDeliversTo();</span>
+<span class="fc" id="L50">		farm_info = f.getFarmInfo();</span>
+<span class="fc" id="L51">		personal_info = f.getPersonalInfo();</span>
+<span class="fc" id="L52">	}</span>
+	
+	public double getDeliveryCharge(){
+<span class="fc" id="L55">		return delivery_charge;</span>
+	}
+	
+	public boolean validate(){
+<span class="pc bpc" id="L59" title="2 of 4 branches missed.">		if(farm_info!=null &amp;&amp; personal_info!=null)</span>
+<span class="pc bpc" id="L60" title="4 of 6 branches missed.">			if(farm_info.validate() &amp;&amp; personal_info.validate() &amp;&amp; delivers_to!=null)</span>
+<span class="nc" id="L61">				return true;</span>
+<span class="fc" id="L62">		return false;</span>
+	}
+	
+	public boolean match(String keyword){
+<span class="fc" id="L66">		StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		for (String s : delivers_to)</span>
+<span class="fc" id="L68">			{sb.append(s+&quot; &quot;);}</span>
+<span class="fc" id="L69">		String s = sb.toString();</span>
+<span class="fc" id="L70">		s = s.toLowerCase();</span>
+<span class="fc" id="L71">		boolean delivers = s.matches(&quot;.*\\b&quot; + keyword + &quot;\\b.*&quot;);</span>
+<span class="fc" id="L72">		boolean farm = farm_info.match(keyword);</span>
+<span class="fc" id="L73">		boolean personalinfo = personal_info.match(keyword);</span>
+<span class="pc bpc" id="L74" title="2 of 6 branches missed.">		if(farm||delivers||personalinfo)</span>
+<span class="fc" id="L75">			return true;</span>
+<span class="fc" id="L76">		return false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

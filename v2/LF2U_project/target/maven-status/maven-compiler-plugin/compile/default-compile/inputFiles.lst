@@ -7,7 +7,6 @@ C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\entitie
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\boundary_interfaces\DeliveryBI.java
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\use_cases\DeliveryManager.java
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\entities\Customer.java
-C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\report\FarmerOrderReport.java
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\boundary_interfaces\ManagerBI.java
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\report\ManagerReportType.java
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\entities\Farmer.java
@@ -30,5 +29,6 @@ C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\entitie
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\rest\RESTFarmer.java
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\entities\Store.java
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\report\FarmerReportByOId.java
+C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\report\ManagerReport.java
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\rest\GET_Store.java
 C:\Users\Huzair Kalia\workspaceJEE\LF2U_project\src\main\java\org\huzair\rest\RESTDelivery.java

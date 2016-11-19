@@ -2,7 +2,6 @@ org\huzair\entities\Search.class
 org\huzair\entities\OrderDetail.class
 org\huzair\rest\RESTFarmer.class
 org\huzair\use_cases\FarmerManager.class
-org\huzair\report\FarmerOrderReport.class
 org\huzair\report\OrderReport.class
 org\huzair\boundary_interfaces\DeliveryBI.class
 org\huzair\boundary_interfaces\FarmerBI.class
@@ -20,6 +19,7 @@ org\huzair\report\FarmerReportType.class
 org\huzair\entities\Store.class
 org\huzair\rest\GET_FarmerZip.class
 org\huzair\report\FarmerReport.class
+org\huzair\report\ManagerReport.class
 org\huzair\report\FarmerReportByOId.class
 org\huzair\entities\Customer.class
 org\huzair\entities\StoreProduct.class
